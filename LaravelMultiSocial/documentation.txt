@@ -1,0 +1,100 @@
+1. Preparation of the core login + Auth Module.
+
+Basic setup and interface with the database
+
+2. Include laravel Auth
+
+3. Change the migration file for user
+
+4. Include the socialite module and configure
+
+5. Killing the routes : /src/Illuminate/Routing/Router.php
+we have killed the login post route:
+ $this->post('login', 'Auth\LoginController@login');
+
+
+6. Killing the views
+
+
+
+7. Working on registration.
+
+Changes in the register controller. Remove password Fields
+from validator function and create functions
+
+changes in the register.blade.php
+
+Change in showRegistrationForm controller (RegisterUser.php)
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+Creation of a multi Auth System.
+
+1. Creation of Model
+php artisan make:model Models/Admins -m
+
+Add the content to the model
+
+2. Changes in the migrations file.
+
+3. Changes in Config/auth.php
+
+4. Create a view.
+AdminController : to handle the admin login view
+
+8. app/Exceptions/Handler.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----
+
+Modification of the AUTH.
+
+1. We have two routes that handle the login functionality.
+Get: login : App\Http\Controllers\Auth\LoginController@showLoginForm
+Post: login: App\Http\Controllers\Auth\LoginController@login
+
+showLoginForm:
+Here make changes to the form. TO display ony Login via Outlook 365
+
+login:
+Find a way to remove the route and the Controller.
+
+2. Logout functionality.
+POST : logout : App\Http\Controllers\Auth\LoginController@logout
+
+Check with sanjeev about the logout. How it is implemented.?: we are logging out from microsoft
+This function will mostly remain as it is.
+
+3. Password Reset functionality.
+POST : password/email: App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail
+GET|HEAD : password/reset : App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm
+POST:password/reset :App\Http\Controllers\Auth\ResetPasswordController@reset
+GET|HEAD : password/reset/{token}: App\Http\Controllers\Auth\ResetPasswordController@showResetForm
+
+Find a way to remove this routes and controller
+
+4. Register
+
+GET|HEAD : register : App\Http\Controllers\Auth\RegisterController@showRegistrationForm
+POST:register :App\Http\Controllers\Auth\RegisterController@register
+
+Question:
+How do we interface microsoft login and Auth login?
+https://scotch.io/tutorials/laravel-social-authentication-with-socialite
