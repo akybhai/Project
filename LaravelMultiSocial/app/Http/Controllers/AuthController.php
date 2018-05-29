@@ -52,7 +52,16 @@ class AuthController extends Controller
                'role_id'  => '3'
            ]);
            Auth::login($us, true);
-           return redirect('/home');
+
+
+           $user = User::find(Auth::id());
+           if($user->mobile==null)
+           {
+             return redirect('/home');
+           }
+
+
+           return view('User Homepage.index');
         }
       }
     }

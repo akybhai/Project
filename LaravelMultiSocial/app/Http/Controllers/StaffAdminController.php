@@ -79,10 +79,15 @@ class StaffAdminController extends Controller
         $staff_inc = $req->input('staff');
 
 
-        $data = array("collect_user_id"=>$collect_user_id, "staff_incharge_collect_id"=>$staff_inc, "booking_status"=>"collected");
+        $data = array("collect_user_id"=>$collect_user_id, "staff_incharge_collect_name"=>$staff_inc, "booking_status"=>"collected", "product_id"=>"$productID");
         DB::table('transactions')->where('booking_id', $bookingID)->update($data);
 
-       $getData = DB::table('activities')->insert(array("event"=>"Product ($productID) collected by User ($collect_user_id) from Staff ($staff_inc)"));
+        $prod_name=DB::table('products')->where('productID',$productID )->pluck('name');
+    //    $staff_name = DB::table('users')->where('name',$staff_inc )->pluck('name');
+
+        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"collected", "performed_by"=>"$staff_inc"));
+
+    //   $getData = DB::table('activities')->insert(array("event"=>"Product ($productID) collected by User ($collect_user_id) from Staff ($staff_inc)"));
        return redirect()->route('home');
     }
 
@@ -98,31 +103,34 @@ class StaffAdminController extends Controller
         $staff_inch = $req->input('staff');
         $bookingID = $req->input('bookID');
         $productID = $req->input('prodID');
-        echo $staff_inch;
-        $data = array("staff_incharge_return_id"=>$staff_inch, "return_comment"=>$comment, 'return_date'=>date("Y-m-d"), "booking_status"=>"returned");
+    //    echo $staff_inch;
+        $data = array("staff_incharge_return_name"=>$staff_inch, "return_comment"=>$comment, 'return_date'=>date("Y-m-d"), "booking_status"=>"returned");
         DB::table('transactions')->where('booking_id', $bookingID)->update($data);
 
-        $getData = DB::table('activities')->insert(array("event"=>"Product ($productID) returned to Staff ($staff_inch)"));
+        $prod_name=DB::table('products')->where('productID',$productID )->pluck('name');
+    //    $staff_name = DB::table('users')->where('id',$staff_inch )->pluck('name');
+
+        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"returned", "performed_by"=>"$staff_inch"));
         return redirect()->route('home');
     }
 
     //function for logs.blade.php
     public function showLogs()
     {
-     $activity = DB::table('activities')->orderBy('event_timestamp', 'DESC')->get();
+     $activity = DB::table('activity_logs')->orderBy('event_timestamp', 'DESC')->get();
      return view('staffadmin.pages.logs', compact('activity'));
     }
 
     //export to excel logs
     public function export(Request $request){
-        $activities=DB::table('activities')->select('event_timestamp','event')->orderBy('event_timestamp', 'DESC')->get();
+        $activities=DB::table('activity_logs')->select('event_timestamp','prod_user','action','performed_by')->orderBy('event_timestamp', 'DESC')->get();
         $tot_record_found=0;
         if(count($activities)>0){
             $tot_record_found=1;
             //First Methos
-            $export_data="Timestamp,Events\n";
+            $export_data="Timestamp,Product/User, ,Action,Incharge\n";
             foreach($activities as $value){
-                $export_data.=$value->event_timestamp.',' .$value->event."\n";
+                $export_data.=$value->event_timestamp.',' .$value->prod_user.',' .' '.','.$value->action.',' .$value->performed_by."\n";
             }
             return response($export_data)
                 ->header('Content-Type','application/csv')
@@ -220,6 +228,53 @@ class StaffAdminController extends Controller
         {
           $userlists = User::all();
           return view('staffadmin.pages.userlist',['userlists' => $userlists]);
+        }
+
+
+        public function singleproductdashboard(Request $request)
+        {
+            $prodID = $request->productID;
+            $products= \DB::select('select * from products WHERE productID=?',[$prodID]);
+            $productImg=0;
+
+
+
+            $tranID=$request->tran_ID;
+//            echo $tranID;
+            $inTran = \DB::select('select * from transactions WHERE booking_id=?',[$tranID]);
+
+            $users = \DB::select('select * from users WHERE id=?',[$inTran[0]->user_id]);
+
+
+
+            $im=\DB::select('select cover_image as c from  product_images where product_id=?  ',[$prodID]);
+
+
+
+            if(count($im)==0)
+
+                {
+
+                    $productImg="no.jpg";
+
+
+                }
+
+                else
+                    {
+
+                        $productImg=$im[0]->c;
+                    }
+//            echo $products[0]->productID;
+// echo $productImg[0]->cover_image;
+// echo $products[0]->name;
+// echo $inTran[0]->start_date;
+// echo $inTran[0]->end_date;
+// echo $users[0]->name;
+// echo $inTran[0]->booking_reason;
+//            return json_encode(array($products[0]->productID, $productImg[0]->cover_image,$products[0]->name,$inTran[0]->start_date,$inTran[0]->end_date,$users[0]->name,$inTran[0]->booking_reason));
+            return json_encode(array($products, $productImg,$inTran,$users));
+
         }
 
 }

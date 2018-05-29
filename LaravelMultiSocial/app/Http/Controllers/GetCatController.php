@@ -21,24 +21,11 @@ class GetCatController extends Controller
         {
             echo "No categories";
         }
-        $cat = \DB::table('categories')->select('category as c')->get();
+        else {
+            $cat = \DB::table('categories')->select('category as c')->get();
 
-
-        foreach ($cat as $cc) {
-
-//            echo '<li1>
-//                        <input type="radio" id="' . 'cat_' . $cc->c . '" name="selector">
-//                        <label for="' . 'cat_' . $cc->c . '">' . $cc->c . '</label>
-//                        <div class="check"></div>
-//                    </li1>';
-
-            echo '<a class="list-group-item list-group-item-action" 
-                id="' . 'cat_' . $cc->c . '" onclick="hone(\'' . 'cat_' . $cc->c . '\')" href="#" >
-                '  . $cc->c . '
-                </a>';
+            return view('Ajaxblade/catgrid')->with('cat', $cat);
         }
-
-
 
     }
 }

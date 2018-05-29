@@ -3,7 +3,6 @@
     <link rel="stylesheet" href="sa/css/bootstrap.min.css">
     <style media="screen">
         #myFooter {
-          position:absolute;
 
             background-color: #3c3d41;
             color: white;
@@ -108,6 +107,11 @@
             }
         }
 
+        #myFooter{
+            flex: 0 0 auto;
+            -webkit-flex: 0 0 auto;
+        }
+
 
     </style>
 
@@ -116,7 +120,7 @@
         <div class="row">
             <div class="col-sm-3" align="center">
                 <h3 class="logo"><a href="http://www.nuigalway.ie/">NUI Galway</h3>
-                <img src="sa/img/nui-logo.jpg" alt="nui-logo" width="250px" height="80px" align="middle"></a>
+                <img class="img-thumbnail" src="sa/img/nui-logo.jpg" alt="nui-logo" width="250px" height="80px" align="middle"></a>
             </div>
             <div class="col-sm-2">
                 <h5 align="center">Note:</h5>
@@ -124,7 +128,7 @@
             </div>
             <div class="col-sm-2" align="center">
                 <h5>Email:</h5>
-                <p><a href="mailto:socsbox@nuigalway.ie?Subject=Query" target="_top">socsbox@nuigalway.ie</a></p>
+                <p>socsbox@nuigalway.ie</p>
             </div>
             <div class="col-sm-2" align="center">
                 <h5>Address:</h5>
@@ -133,14 +137,13 @@
                     National University of Ireland,
                     University Road, Galway, Ireland.</p>
             </div>
-            <div class="col-sm-3" align="center">
-               <h5>Connect with us:</h5>
-                <p class="social-networks" align="center">
+            <div class="col-sm-3">
+                <div class="social-networks">
                     <a href="https://twitter.com/socsboxnuig" class="twitter"><i class="fa fa-twitter"></i></a>
                     <a href="https://www.facebook.com/socs.box/" class="facebook"><i class="fa fa-facebook"></i></a>
                     <a href="https://www.youtube.com/channel/UC5FLetKWgGOX9wSrHBRr_0A" class="facebook"><i class="fa fa-youtube"></i></a>
-                </p>
-                <!-- <button type="button" class="btn btn-default">Connect with us</button> -->
+                </div>
+                <button type="button" class="btn btn-default">Connect with us</button>
             </div>
         </div>
     </div>

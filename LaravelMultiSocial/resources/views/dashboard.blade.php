@@ -72,36 +72,44 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-lg-3">
+          <a href="{{ url('/admin/userlist') }}">
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
               <h4>Users</h4>
               <p><b>21</b></p>
             </div>
           </div>
+          </a>
         </div>
         <div class="col-md-6 col-lg-3">
+          <a href="{{ url('/admin/userlist') }}">
           <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
             <div class="info">
               <h4>Staff</h4>
               <p><b>5</b></p>
             </div>
           </div>
+          </a>
         </div>
         <div class="col-md-6 col-lg-3">
+          <a href="{{ url('/admin/categories') }}">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
               <h4>Categories</h4>
               <p><b>5</b></p>
             </div>
           </div>
+          </a>
         </div>
         <div class="col-md-6 col-lg-3">
+          <a href="{{ url('admin/products') }}">
           <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
             <div class="info">
               <h4>Products</h4>
               <p><b>500</b></p>
             </div>
           </div>
+          </a>
         </div>
       </div>
       <div class="row">
