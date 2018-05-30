@@ -10,18 +10,18 @@
                     </button>
                   </div>
                   <div class="modal-body">
-    <form method="POST" action="{{ url('products')}}"  enctype="multipart/form-data">
+    <form method="POST" action="{{ url('products')}}"  enctype="multipart/form-data" >
       <!-- Name of the product-->
       {{ csrf_field() }}
-      <div class="form-group">
+      <div class="form-group" id="addProductForm">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName">
+        <input type="text" class="form-control" id="productName" placeholder="Product name here" name="productName" required>
       </div>
 
       <!-- Description of the product-->
       <div class="form-group">
         <label for="description">Description:</label>
-        <textarea class="form-control" rows="5" id="productDescription" name="productDescription" placeholder="Enter product description"></textarea>
+        <textarea class="form-control" rows="3" id="productDescription" name="productDescription" placeholder="Enter product description" required></textarea>
       </div>
 
       <!-- Category DropDown -->
@@ -37,11 +37,15 @@
       <!-- Product ID -->
       <div class="form-group">
         <label for="productid">Product ID:</label>
-        <input type="text" class="form-control" id="productID" placeholder="Enter product id" name="productID">
+        <input type="number" class="form-control" id="productID" placeholder="Enter product id" name="productID" required>
       </div>
       <div class="form-group">
         <label for="img">Upload Images:</label>
-        <input class="form-control" type="file" name="cover_image" id="file">
+        <input class="form-control" type="file" name="cover_image" id="imgFile">
+      </div>
+      <div class="form-group">
+        <label for="img">Upload Help Document:</label>
+        <input class="form-control" type="file" name="help_doc" id="pdfFile">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
