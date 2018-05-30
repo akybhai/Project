@@ -537,15 +537,13 @@
           ?>
 
 
-var prodidarray=[
-          <?php
+var prodidarray=[<?php
           for ($key=0;$key<count($prod_name);$key++)
           {
           echo $prod_name[$key]->productID.",";
 
           }
-          ?>
-          0];
+          ?>0];
 
 
 
@@ -579,27 +577,25 @@ var prodidarray=[
                       i.focus();
                       throw "Enter all values";
                   }
-                  //
-                  // if(i.name=="prodID")
-                  // {
-                  //   var condi=1;
-                  //     Array.prototype.forEach.call(prodidarray, prodi => {
-                  //
-                  //       if(prodi===i.value)
-                  //       {
-                  //         condi=0;
-                  //         alert(i.value);
-                  //       }
-                  //
-                  //
-                  //     });
-                  //     if(condi)
-                  //     {
-                  //       throw "Product Not in System";
-                  //     }
-                  //
-                  //
-                  // }
+                  if(i.name=="prodID")
+                  {
+                    var condi=1;
+                      Array.prototype.forEach.call(prodidarray, prodi => {
+
+                        if(prodi==i.value)
+                        {
+                          condi=0;
+                        }
+
+
+                      });
+                      if(condi)
+                      {
+                        throw "Product Not in System";
+                      }
+
+
+                  }
                   var Field = document.createElement("input");
                   Field.setAttribute("type", "hidden");
                   Field.setAttribute("name", i.name);
