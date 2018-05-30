@@ -51,12 +51,7 @@ class HomeController extends Controller
      */
     public function userRegistration(Request $request)
     {
-      // Validate
-    $this->validate($request,[
-      'soc' => 'required',
-      'post' => 'required',
-      'tel' => 'nullable|integer'
-    ]);
+
     //get the user you want to update field
     $user = User::find(Auth::id());
 
@@ -67,9 +62,8 @@ class HomeController extends Controller
       $user->mobile = $request->input('tel');
     }
 
-    $user->society = $request->input('soc');
-    $user->post = $request->input('post');
     $user->save();
+
     return redirect('/');
     }
 
