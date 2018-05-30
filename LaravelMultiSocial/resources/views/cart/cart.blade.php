@@ -175,9 +175,9 @@
 
         <tfoot>
         <tr>
-            <td><a href="{{'/'}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+            <td><a href="{{'/'}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Add More Items</a></td>
             <td colspan="1"></td>
-            <td><a href="#" class="btn btn-success btn-block" id="checkout" onclick="checkout()">Checkout <i class="fa fa-angle-right"></i></a></td>
+            <td><a href="#" class="btn btn-success btn-block" id="checkout" onclick="checkout()">Book <i class="fa fa-angle-right"></i></a></td>
         </tr>
         </tfoot>
     </table>
@@ -197,8 +197,12 @@ Redirecting to Home page
 </div>
 
 <script>
+
+var active=1;
     function DeleteandReload(id)
     {
+      if(active)
+      {
         $.ajax({
             type: "POST",
 
@@ -208,12 +212,16 @@ Redirecting to Home page
                 location.reload();
             }
         });
+      }
     }
 
     function checkout()
     {
+      if(active)
+      {
+        active=0;
+        $("body").css("cursor", "wait");
         var r=document.getElementById("reason").value;
-        document.getElementById("checkout").disabled = true;
         $.ajax({
             type: "POST",
             url: '/checkout',
@@ -221,12 +229,14 @@ Redirecting to Home page
             success: function( msg ) {
                 alert("Request Send To Admin");
                 window.location = "/";
+                $("body").css("cursor", "default");
             },
             error: function (data, textStatus, errorThrown) {
                 console.log(data);
 
             }
         });
+      }
     }
     </script>
 

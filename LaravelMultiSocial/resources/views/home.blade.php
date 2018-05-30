@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">User Information</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h1>{{auth()->user()->name}}</h1>
+                     <h1>{{auth()->user()->name}}</h1>
                     <h3>Welcome to Inventory System</h3>
                     <h5>Your details.</h5>
                     <form method="POST" class="form-horizontal" action="{{route('home.post')}}" onsubmit="return(validate());" name="myForm">
@@ -30,6 +30,8 @@
                         </div>
                       </div>
                     </form>
+
+                    <span style="color:red">*As per Admin Rules, You need to have a valid phone number to book a product.</span>
                     {{-- form for storing the Values --}}
 
                 </div>
@@ -55,6 +57,7 @@
             return false;
         }
     }
+
     //-->
 </script>
 @endsection

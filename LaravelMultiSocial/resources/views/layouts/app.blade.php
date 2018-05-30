@@ -26,6 +26,9 @@
     {{--<link rel="stylesheet" src="{{asset('css/bootstrap.css')}}">--}}
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+    <script src="sa/jquery/jquery.js"></script>
+    <script src="sa/js/bootstrap.js"></script>
+
     <style media="screen">
         .nav1 .navbar-brand {
             height: 40px;
@@ -65,7 +68,7 @@
 <!-- jQuery -->
 {{--<script src="sa/jquery/jquery.js"></script>--}}
 <!-- Bootstrap Core JavaScript -->
-<script src="{{asset('js/bootstrap.js')}}"></script>
+
 @yield('script')
 
 

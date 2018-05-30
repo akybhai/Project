@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Category;
 use App\ProductImages;
+use App\User;
 use DB;
 
 class ProductsController extends Controller
@@ -97,7 +99,10 @@ class ProductsController extends Controller
 //save in log
       $prodid=$request->input('productID');
       $catname=$request->input('productCategory');
-      $getData = DB::table('activities')->insert(array("event"=>"Product ($prodid) was added in category ($catname)"));
+    //  $getData = DB::table('activities')->insert(array("event"=>"Product ($prodid) was added in category ($catname)"));
+      $prod_name=DB::table('products')->where('productID',$prodid )->pluck('name');
+      $user = User::find(Auth::id());
+      $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($prodid)", "action"=>"added", "performed_by"=>"$user->name"));
       //redirect
       return redirect()->route('adminstaff.products') ;
     }
@@ -203,6 +208,8 @@ class ProductsController extends Controller
         //delete Products
         $product = Product::find($id);
         $productImage = ProductImages::where('product_id',$product->productID)->firstOrFail();
+        $prod_id = $product->productID;
+        $prod_name=DB::table('products')->where('productID',$prod_id )->pluck('name');
         $product->delete();
         if($productImage->cover_image != 'noimage.jpg')
         {
@@ -211,7 +218,10 @@ class ProductsController extends Controller
         $productImage->delete();
 
         //save in log
-              $getData = DB::table('activities')->insert(array("event"=>"Product ($id) was deleted"));
+          //    $getData = DB::table('activities')->insert(array("event"=>"Product ($id) was deleted"));
+    //      $prod_name=DB::table('products')->where('productID',$prod_id )->pluck('name');
+        $user = User::find(Auth::id());
+          $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($prod_id)", "action"=>"deleted", "performed_by"=>"$user->name"));
         return redirect()->route('adminstaff.products') ;
     }
 }
