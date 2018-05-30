@@ -28,15 +28,19 @@ tr, table, td, th {
           <table class="table table-striped">
             <thead>
               <tr>
-                <th width="20%">Timestamp</th>
-                <th width="80%">Activity</th>
+                <th width="25%">Timestamp</th>
+                <th width="25%">Product/User</th>
+                <th width="25%">Action</th>
+                <th width="25%">Incharge</th>
               </tr>
             </thead>
             <tbody>
               @foreach($activity as $row)
               <tr>
-                <td width="20%">{{$row->event_timestamp}}</td>
-                <td width="80%">{{$row->event}}</td>
+                <td width="25%">{{$row->event_timestamp}}</td>
+                <td width="25%">{{$row->prod_user}}</td>
+                <td width="25%">{{$row->action}}</td>
+                <td width="25%">{{$row->performed_by}}</td>
               </tr>
               @endforeach
             </tbody>

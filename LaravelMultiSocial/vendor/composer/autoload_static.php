@@ -2639,7 +2639,6 @@ class ComposerStaticInitecb70e57ed921f433c2bd8292e32049e
         'Mockery\\Generator\\StringManipulation\\Pass\\Pass' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/Pass.php',
         'Mockery\\Generator\\StringManipulation\\Pass\\RemoveBuiltinMethodsThatAreFinalPass' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php',
         'Mockery\\Generator\\StringManipulation\\Pass\\RemoveDestructorPass' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/RemoveDestructorPass.php',
-        'Mockery\\Generator\\StringManipulation\\Pass\\RemoveUnserializeForInternalSerializableClassesPass' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/RemoveUnserializeForInternalSerializableClassesPass.php',
         'Mockery\\Generator\\StringManipulation\\Pass\\TraitPass' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/TraitPass.php',
         'Mockery\\Generator\\TargetClassInterface' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/TargetClassInterface.php',
         'Mockery\\Generator\\UndefinedTargetClass' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Generator/UndefinedTargetClass.php',
