@@ -13,32 +13,20 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h1>{{auth()->user()->name}}</h1>
+                     <h1>{{auth()->user()->name}}</h1>
                     <h3>Welcome to Inventory System</h3>
                     <h5>Your details.</h5>
-                    <?php
-                    use App\User;
-                    $user = User::find(Auth::id());
-                    ?>
-
-
                     <form method="POST" class="form-horizontal" action="{{route('home.post')}}" onsubmit="return(validate());" name="myForm">
                       {{ csrf_field() }}
                       <div class="form-group">
-                        <label class="control-label col-sm-2" for="email" >Email</label>
+                        <label class="control-label col-sm-2" for="tel">Mobile No:</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="email"  name="email" value={{$user->email}} readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-sm-2" for="tel" >Mobile No:</label>
-                        <div class="col-sm-10">
-                          <input type="tel" class="form-control" id="tel" placeholder="Enter Mobile no" name="tel" value={{$user->mobile}} >
+                          <input type="tel" class="form-control" id="tel" placeholder="Enter Mobile no" name="tel">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <button type="submit" class="btn btn-default">Submit</button>
                         </div>
                       </div>
                     </form>
@@ -69,8 +57,6 @@
             return false;
         }
     }
-
-
 
     //-->
 </script>
