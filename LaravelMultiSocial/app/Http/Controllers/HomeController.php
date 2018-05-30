@@ -52,13 +52,6 @@ class HomeController extends Controller
     public function userRegistration(Request $request)
     {
 
-////      // Validate
-//    $this->validate($request,[
-//      'soc' => 'required',
-//      'post' => 'required',
-//      'tel' => 'nullable|integer'
-//    ]);
-    //get the user you want to update field
     $user = User::find(Auth::id());
 
     //Check if the the user mobile number is present.
