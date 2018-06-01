@@ -1,42 +1,51 @@
+<!--  Template consist of products in table format-->
 @if($products->count() != 0)
 <table class="table table-striped">
+<!--  table header start-->
   <thead>
     <tr>
       <th>Product Id</th>
       <th>Name</th>
-      <th>Description</th>
       <th></th>
     </tr>
   </thead>
+<!--  table header ends-->
   <tbody>
+<!--  table body start -->
     @foreach ($products as $prod)
     <tr>
-      <td style="padding:5px">
-        <div class="media">
-              <a href="#" class="pull-left singleProductView" onclick="singleProductViewFunc({{$prod->id}})">
-                <img src="/storage/cover_images/{{ $prod->ProductImages->where('product_id', $prod->productID)->first()->cover_image }}" class="media-photo" style="width:40px;height:40px">
-              </a>
-        </div>
-      </td>
-      <td><a href="#" data-toggle="modal" data-target="#product_view" class="singleProductView" onclick="singleProductViewFunc({{$prod->id}})"> {{ $prod->name }}</a></td>
-      <td>{{ str_limit($prod->description,10) }}...</td>
+      <!--  Clickable Product ID -->
       <td>
-
+        <a href="#" data-toggle="modal" data-target="#product_view" class="pull-left singleProductView" onclick="singleProductViewFunc({{$prod->id}})">
+          {{ $prod->productID }}
+        </a>
+      </td>
+      <!--  Clickable Product Name -->
+      <td>
+        <a href="#" data-toggle="modal" data-target="#product_view" class="singleProductView" onclick="singleProductViewFunc({{$prod->id}})">
+          {{ $prod->name }}
+        </a>
+      </td>
+      <!-- Clickable View Edit Delete Button -->
+      <td>
+        <!-- View Button -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product_view" class="singleProductView" onclick="singleProductViewFunc({{$prod->id}})"  ><i class="fa fa-pencil-square-o"></i>
+          View
+        </button>
+        <!-- Edit Button -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productrenamemodal" id="editProduct" onclick="editProductFunc({{$prod->id}})" ><i class="fa fa-pencil-square-o"></i>
-          edit
+          Edit
         </button>
         <!-- Delete button -->
-        <form method="POST" action="{{ url('products/'.$prod->id)}}" style="float:right;">
+        <form method="POST" action="{{ url('products/'.$prod->id)}}" style="display:inline;">
           <input type="hidden" name="_method" value="DELETE">
           {{ csrf_field() }}
           <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash-o"></i>Delete</button>
         </form>
-
-
-
       </td>
     </tr>
     @endforeach
+<!--  table body ends -->
   </tbody>
 </table>
 @else

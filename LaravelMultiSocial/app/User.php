@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //  establishing relationship with transaction tables
+    public function transactions()
+    {
+      return $this->hasMany('App\Transaction','user_id','id');
+    }
 }

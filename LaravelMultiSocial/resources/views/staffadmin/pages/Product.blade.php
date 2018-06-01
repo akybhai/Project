@@ -6,7 +6,11 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
 <style>
+ul.ui-autocomplete.ui-menu {
+  z-index: 1000 !important;
+}
 #singleProductViewImg {
     display: block;
     margin: 0 auto;
@@ -34,7 +38,8 @@
 
 
           <br>
-
+          <!-- status Message from Server -->
+          @include('staffadmin.partials.message')
           <div class="row justify-content-center">
 
             <div class="col-md-3" align="middle">
@@ -45,7 +50,7 @@
                   <div class="list-group" id="highlight1">
                     {{--  Loop through the categories--}}
                     @foreach ($cat as $ct)
-                        <a class="list-group-item list-group-item-action" id="_{{ $ct->id }}" onclick="getproduct('_{{ $ct->id }}')" href="#" >{{ $ct->category }}</a>
+                        <a class="list-group-item list-group-item-action @if($ct->category == $firstCat ) active @endif" id="_{{ $ct->id }}" onclick="getproduct('_{{ $ct->id }}')" href="#" >{{ $ct->category }}</a>
                     @endforeach
                   </div>
 
@@ -53,6 +58,7 @@
             </div>
 
             <div class="col-9 table-responsive" id="productResult" >
+              @include('staffadmin.ajax.productTable')
             </div>
           @else
             <h2>No Categories currently in the system</h2>
@@ -71,7 +77,7 @@
 @endsection
 
 @section('script')
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 
 //global variable yo store selected category
@@ -95,11 +101,11 @@ function selectedCategory(selectCat)
 
 
 
-//function to pass the product ID to Edit modals
+//function to pass the product related details to Edit Modal
 function editProductFunc(id)
 {
   var route = "{{ url('products/')}}" + "/"+ id;
-
+  var imgRoute = "/storage/cover_images/";
   $('#editProductForm').attr('action',route);
   $.ajax({
   type : 'get',
@@ -112,12 +118,7 @@ function editProductFunc(id)
     $('#productName').val(data[0].name);
     $('#productDescription').val(data[0].description);
     $('#productid').empty().html(data[0].productID);
-
-    // check the category selected
-
-    // $('#singleProductId').empty().html(data[0].id);
-    //
-    // // console.log();
+    $('#prodImage').attr('src',imgRoute + data[2]);;
     selectedCategory(data[1]);
   }
 });
@@ -139,23 +140,27 @@ function singleProductViewFunc(id)
     $('#singleProductId').empty().html(data[0].id);
     $('#singleProductName').empty().html(data[0].name);
     $('#singleProductDescription').empty().html(data[0].description);
+
+    // handle the Media Files
+    // data[1].forEach(function(elmen){
+    //
+    //   console.log(elmen.cover_image)
+    //   var imgFormat = (elmen.cover_image).split(".")[1];
+    //   if(imgFormat == "jpg" || imgFormat == "jpeg" || imgFormat == "png")
+    //   {
+    //     var imageName =
+    //   }
+    //
+    // });
+
     $('#singleProductViewImg').attr('src',imgRoute + data[1].cover_image);
+
+
     // console.log();
   }
   });
 
 }
-
-
-
-// $(".singleProductViewClass").click(function(){
-//   console.log('single product View');
-// });
-
-
-
-
-
 
 
 
@@ -214,45 +219,14 @@ $('#searchBtn').click(function(){
 
 });
 
+// Function TO validate Add Product Modal
 
 
 
 
 
 
-
-
-
-
-
-
-
-//
-// $.ajaxSetup({
-//   headers: {
-//     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//   }
-// });
-// // get the input values
-// $productName = $('#productName').val();
-// $productDescription = $('#productDescription').val();
-//
-// // submit the values
-// $("#newProductBtn").click(function(){
-//   console.log('Hello');
-//   $.ajax({
-//   type : 'post',
-//   url : '{{route('products.store')}}',
-//   data:{
-//     'search': 'welcome'
-//   },
-//   success:function(data){
-//   console.log(data)
-//   }
-//   });
-// });
-
-
+// Function to add & Remove active from class
 function hone(idval)
 {
   var x= document.getElementById("highlight1");
@@ -264,5 +238,38 @@ function hone(idval)
 
 
 
+</script>
+<script type="text/javascript">
+$( function() {
+  var availableTags = [
+    "ActionScript",
+    "AppleScript",
+    "Asp",
+    "BASIC",
+    "C",
+    "C++",
+    "Clojure",
+    "COBOL",
+    "ColdFusion",
+    "Erlang",
+    "Fortran",
+    "Groovy",
+    "Haskell",
+    "Java",
+    "JavaScript",
+    "Lisp",
+    "Perl",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Scala",
+    "Scheme"
+  ];
+  $( "#productName" ).autocomplete({
+    source: availableTags,
+  });
+  // $( "#productName" ).autocomplete( "option", "appendTo", "#addProductForm" );
+
+} );
 </script>
 @endsection

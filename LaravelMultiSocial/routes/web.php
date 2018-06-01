@@ -64,6 +64,10 @@ Route::post('admin/categories', 'StaffAdminController@addNewCategories')->name('
 //remove category
 Route::delete('admin/categories/delete/{id}', 'StaffAdminController@destroyCategories')->name('adminstaff.deletecategories');
 
+//Edit Categories
+Route::put('admin/categories/update/{id}', 'StaffAdminController@updateCategories')->name('adminstaff.updatecategories');
+
+
 //Display available categories
 Route::get('admin/products', 'StaffAdminController@showProducts')->name('adminstaff.products');
 //Edit Product for edit
