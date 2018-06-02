@@ -16,15 +16,15 @@
     <tr>
       <!--  Clickable Product ID -->
       <td>
-        <a href="#" data-toggle="modal" data-target="#product_view" class="pull-left singleProductView" onclick="singleProductViewFunc({{$prod->id}})">
+        <!-- <a href="#" data-toggle="modal" data-target="#product_view" class="pull-left singleProductView" onclick="singleProductViewFunc({{$prod->id}})"> -->
           {{ $prod->productID }}
-        </a>
+        <!-- </a> -->
       </td>
       <!--  Clickable Product Name -->
       <td>
-        <a href="#" data-toggle="modal" data-target="#product_view" class="singleProductView" onclick="singleProductViewFunc({{$prod->id}})">
+        <!-- <a href="#" data-toggle="modal" data-target="#product_view" class="singleProductView" onclick="singleProductViewFunc({{$prod->id}})"> -->
           {{ $prod->name }}
-        </a>
+        <!-- </a> -->
       </td>
       <!-- Clickable View Edit Delete Button -->
       <td>
