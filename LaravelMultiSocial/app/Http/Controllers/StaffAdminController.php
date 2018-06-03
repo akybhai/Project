@@ -10,6 +10,8 @@ use DB;
 use App\Product;
 use App\ProductImages;
 use App\Transaction;
+use App\product_documents;
+use Session;
 
 class StaffAdminController extends Controller
 {
@@ -30,7 +32,8 @@ class StaffAdminController extends Controller
    public function showCategories()
    {
      // Get a instance of category
-     $cat = Category::all();
+     $cat = Category::orderBy('category')
+                  ->get();
     return view('staffadmin.pages.categories')->with('cat',$cat);
    }
 
@@ -45,11 +48,48 @@ class StaffAdminController extends Controller
       $this->validate($request,[
         'category' => 'required',
       ]);
-      $cat = new Category();
-      $cat->category = $request->input('category');
-      $cat->save();
+      $enterCat = $request->input('category');
+      //check if the category exists
+      $catCount = Category::where('category', $enterCat)
+             ->count();
+      if($catCount > 0)
+      {
+        //category exists
+        Session::flash('warning',$enterCat.' Category cannot be added. Category Already Present');
+      }
+      else {
+        // create a new category
+        $cat = new Category();
+        $cat->category = strtoupper($enterCat);
+        $cat->save();
+        Session::flash('success','New Category '.$enterCat.' added.');
+      }
       return redirect()->route('adminstaff.newcategories');
     }
+
+
+
+
+
+    /**
+     * Update the Categories.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function updateCategories(Request $request, $id)
+     {
+        // check if the category is present or not null
+       $this->validate($request,[
+         'renameCatInput' => 'required',
+
+       ]);
+       $cat = Category::find($id);
+       $cat->category = $request->input('renameCatInput');
+       $cat->save();
+       return redirect()->route('adminstaff.newcategories');
+     }
     /**
      * Remove Category from the database.
      *
@@ -60,7 +100,17 @@ class StaffAdminController extends Controller
         //delete categories
         //here check wether the product  exist in that particular category then only delete the category
         $cat = Category::find($id);
-        $cat->delete();
+        // find the product of product in a particular category
+        $prodCount = Product::where('category', $id)
+               ->count();
+        if($prodCount > 0)
+        {
+          Session::flash('warning','Category cannot be deleted. Product present in category');
+        }
+        else {
+          $cat->delete();
+          Session::flash('success','Category deleted');
+        }
 
         return redirect()->route('adminstaff.newcategories');
     }
@@ -137,8 +187,10 @@ class StaffAdminController extends Controller
                 ->header('Content-Disposition', 'attachment; filename="activity_logs_download.csv"')
                 ->header('Pragma','no-cache')
                 ->header('Expires','0');
+                view('download',['record_found' =>$tot_record_found]);
         }
-        view('download',['record_found' =>$tot_record_found]);
+
+        return back();
     }
 
     public function showuserlist()
@@ -152,44 +204,39 @@ class StaffAdminController extends Controller
      */
      public function showProducts(Request $request)
      {
-       // Get a instance of category
-      $cat = Category::all();
-      // check if the request is AJAX
+       // Initial Load
+      // Get list of category in alphabetical order
+      $cat = Category::orderBy('category')
+                          ->get();
+      // get the name of the first category
+      $firstCat = $cat[0]->category;
+      // Get the list of product under 1st alphabetical sorted category
+      $products = Product::where('category', $cat[0]->id)
+             ->get();
+
+
+      // Ajax request to return a list of products for a particular Category
       if(request()->ajax() and $request->has('categoryId'))
       {
         $cat_id = $request->categoryId;
         $products = Product::where('category', $cat_id)
-              //  ->orderBy('name', 'desc')
-              //  ->take(10)
                ->get();
-
-        //single product
-        // $prod = Product::find(2);
-        // return $prod->productID;
-        // $productImg = Product::find(2)->ProductImages->where('product_id', $prod->productID)->first()->cover_image;
-        // ->where('product_id', $prod->productID)->cover_image->;
-        // $productImg = $prod->ProductImages()->where('product_id', $prod->productID)->firstOrFail();
-        // ()->where('product_id',$prod->productID)->first();
-        // return $productImg;
-        // return $products;
-        // $productImage = ProductImages::where('product_id', '=', $product->productID)->firstOrFail();
         return view('staffadmin.ajax.productTable', compact('products'));
       }
+
+      // Ajax request to view a single product
       if(request()->ajax() and $request->has('productID'))
       {
         $prodID = $request->productID;
         $products = Product::find($prodID);
         $productImg = $products->ProductImages->where('product_id', $products->productID)->first();
-        // ->first()->cover_image;
-        // $prod->ProductImages->where('product_id', $prod->productID)->first()->cover_image
-
-        // ->where('product_id', $request->productID)->first()->cover_image;
-        // ->where('product_id', $prod->productID)->first()->cover_image;
         return json_encode(array($products, $productImg));
       }
-      return view('staffadmin.pages.Product')->with('cat', $cat);
+      // return $cat;
+      return view('staffadmin.pages.Product', compact('products','cat', 'firstCat'));
      }
 
+     // Function to handle ajax request  and send the product details, category, image, document location
      public function editProduct(Request $request)
      {
 
@@ -198,7 +245,19 @@ class StaffAdminController extends Controller
        {
          $product = Product::find($request->productID);
          $categorySelected = Category::find($product->category)->category;
-         return json_encode(array($product, $categorySelected));
+         $productImage = ProductImages::where('product_id', $product->productID)
+                ->first()->cover_image;
+         $productDoc = product_documents::where('product_id', $product->productID)
+                ->first();
+        // Check if the product document exists
+         if(!$productDoc)
+         {
+           $productDocLink = "NoPdf";
+         }
+         else {
+           $productDocLink = $productDoc->document_name;
+         }
+         return json_encode(array($product, $categorySelected, $productImage, $productDocLink));
        }
 
          $product = Product::find($id);
@@ -207,30 +266,8 @@ class StaffAdminController extends Controller
          return view('products.edit', compact('product','category', 'categorySelected'));
      }
 
-       //manmaya's
-        public function pendingdata()  // function to get all records having status pending
-        {
-        #trying a single line comment
-        //echo '<pre>';
-        //$articles = Article::all(); // getting all the records using all()
-         $articles = Transaction::where('booking_status','pending')->get();
-        //return Transaction::all();
-        //return $articles;  // return $articles;
-          return view('staffadmin.pages.requests')->with('articles',$articles);
-          //$products= Product::whereIn('id','$articles')->get();
-        // return view('staffadmin.pages.requests', ['transactions' => $articles]); // passing to data to view home.blade.php
-        //return view('pages.home')->with('articles',$articles);
-        // ,['articles'=> $articles]
-        //  print_r($articles);
-        //echo '</pre>';
-        }
-        public function userlist()  // show userlist
-        {
-          $userlists = User::all();
-          return view('staffadmin.pages.userlist',['userlists' => $userlists]);
-        }
 
-
+//sanjeev
         public function singleproductdashboard(Request $request)
         {
             $prodID = $request->productID;
@@ -276,5 +313,49 @@ class StaffAdminController extends Controller
             return json_encode(array($products, $productImg,$inTran,$users));
 
         }
+
+
+        //manmaya's
+
+        public function pendingdata()  // function to get all records having status pending
+        {
+
+          $articles=DB::table('transactions')
+            ->leftJoin('products', 'transactions.product_id', '=', 'products.productID')
+
+            ->leftJoin('users', 'transactions.user_id', '=', 'users.id')
+
+            ->where('booking_status','pending')
+            //->ON('booking_status','pending')
+            ->select('transactions.*','products.name as productname','users.name as username','mobile')
+
+            ->get();
+        return view('staffadmin.pages.requests', ['articles' => $articles]);
+        #trying a single line comment
+        //echo '<pre>';
+        //$articles = Article::all(); // getting all the records using all()
+        // $articles = Transaction::where('booking_status','pending')->get();
+        //return Transaction::all();
+        //return $articles;  // return $articles;
+        //  return view('staffadmin.pages.requests')->with('articles',$articles);
+          //$products= Product::whereIn('id','$articles')->get();
+        // return view('staffadmin.pages.requests', ['transactions' => $articles]); // passing to data to view home.blade.php
+        //return view('pages.home')->with('articles',$articles);
+        // ,['articles'=> $articles]
+        //  print_r($articles);
+        //echo '</pre>';
+        }
+
+
+
+
+
+
+        public function userlist()  // show userlist
+        {
+          $userlists = User::all();
+          return view('staffadmin.pages.userlist',['userlists' => $userlists]);
+        }
+
 
 }

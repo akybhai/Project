@@ -66,4 +66,20 @@ class HomeController extends Controller
     return redirect('/');
     }
 
+    // User's Request Page
+  public function userrequestdata(Request $request)
+  {
+    $user = User::find(Auth::id());
+
+    $getData = DB::table('transactions')->where([['user_id',$user->id],['booking_status','pending']])->get();
+    $getDataa = DB::table('transactions')->where([['user_id',$user->id],['booking_status','approved']])->orWhere([['user_id',$user->id],['booking_status','collected']])->orWhere([['user_id',$user->id],['booking_status','returned']])->get();
+    $getDataaa = DB::table('transactions')->where([['user_id',$user->id],['booking_status','rejected']])->get();
+  //  return view('User Homepage.userrequest');
+    //return view('User Homepage.userrequest',compact('getData'));
+    return view('User Homepage.userrequest',compact('getData','getDataa','getDataaa'));
+
+    //return view('User Homepage.userrequest');
+
+  }
+
 }
