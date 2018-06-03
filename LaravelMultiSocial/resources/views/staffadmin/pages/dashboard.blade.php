@@ -444,7 +444,7 @@
         <?php
         $inTran = \DB::select('select count(*) as c,name from  products b where productID not in(select product_id from transactions a WHERE Date(Start_Date)<=? and Date(End_Date)>=? AND booking_status in ("approved")) GROUP BY name ORDER BY name ',[date("Y-m-d"),date("Y-m-d")]);
 
-        for($t=0;$t< count($inTran) and $t<3; $t++ )
+        for($t=0;$t< count($inTran); $t++ )
         {
             echo "<tr><td>".$inTran[$t]->name."</td>";
             echo "<td>".$inTran[$t]->c."</td>";
