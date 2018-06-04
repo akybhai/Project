@@ -165,12 +165,12 @@
             }
 
             echo '<tr>
-            <td align="center"><h4><b>Please mention associated society:</b></h4></td>
+            <td align="center"><h4><b>Society/Group:</b></h4></td>
             <td><input style="float:right"  id ="society"></input>
             </tr>
             <tr>
-            <td align="center"><h4><b>Please mention reason for booking in short:</b></h4></td>
-            <td><textarea rows="4" cols="50" style="float:right" placeholder="Min 20 Words" id ="reason"></textarea>
+            <td align="center"><h4><b>Reason for booking:</b></h4></td>
+            <td><textarea rows="4" cols="50" style="float:right" placeholder="Event name, Location" id ="reason"></textarea>
             </td>
         </tr>';
 
