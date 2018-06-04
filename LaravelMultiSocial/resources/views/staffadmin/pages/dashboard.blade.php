@@ -157,8 +157,13 @@
                         </div>
 
                         <div class="form-group">
-                          <label class="control-label" for="studID"><b>Student ID:</b></label>
-                          <input type="studID"  class="form-control collect-from"  id="studID" placeholder="Enter student ID" name="studID" required>
+                          <label class="control-label" for="collectUserName"><b>Collector name:</b></label>
+                          <input type="collectUserName"  class="form-control collect-from"  id="collectUserName" placeholder="Enter name of collector" name="collectUserName" required>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="control-label" for="mob"><b>Mobile no:</b></label>
+                          <input type="mob"  class="form-control collect-from"  id="mob" placeholder="Enter mobile no." name="mob" required>
                         </div>
 
                         <div class="form-group">
