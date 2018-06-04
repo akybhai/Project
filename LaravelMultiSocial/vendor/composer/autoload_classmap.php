@@ -2273,7 +2273,6 @@ return array(
     'Mockery\\Generator\\StringManipulation\\Pass\\Pass' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/Pass.php',
     'Mockery\\Generator\\StringManipulation\\Pass\\RemoveBuiltinMethodsThatAreFinalPass' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php',
     'Mockery\\Generator\\StringManipulation\\Pass\\RemoveDestructorPass' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/RemoveDestructorPass.php',
-    'Mockery\\Generator\\StringManipulation\\Pass\\RemoveUnserializeForInternalSerializableClassesPass' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/RemoveUnserializeForInternalSerializableClassesPass.php',
     'Mockery\\Generator\\StringManipulation\\Pass\\TraitPass' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/TraitPass.php',
     'Mockery\\Generator\\TargetClassInterface' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/TargetClassInterface.php',
     'Mockery\\Generator\\UndefinedTargetClass' => $vendorDir . '/mockery/mockery/library/Mockery/Generator/UndefinedTargetClass.php',

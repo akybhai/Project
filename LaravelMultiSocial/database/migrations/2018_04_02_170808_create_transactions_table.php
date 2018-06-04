@@ -17,16 +17,18 @@ class CreateTransactionsTable extends Migration
             $table->increments('booking_id');
             $table->integer('product_id');
             $table->integer('user_id');
-            $table->integer('collect_user_id');
-            $table->integer('staff_incharge_collect_id');
-            $table->integer('staff_incharge_return_id');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->date('return_date');
-            $table->string('booking_reason');
+            $table->integer('collect_user_id')->nullable();
+            $table->string('staff_incharge_collect_name')->nullable();
+            $table->string('staff_incharge_return_name')->nullable();
+            $table->datetime('start_date');
+            $table->datetime('end_date');
+            $table->integer('Full_Day')->default(1);
+            $table->datetime('return_date')->nullable();
+            $table->string('booking_reason')->nullable();
+            $table->string('society')->nullable();
             $table->string('booking_status');
-            $table->string('reject_comment');
-            $table->string('return_comment');
+            $table->string('reject_comment')->nullable();
+            $table->string('return_comment')->nullable();
             $table->timestamps();
         });
     }

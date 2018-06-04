@@ -165,8 +165,12 @@
             }
 
             echo '<tr>
-            <td align="center"><h4><b>Please mention reason for the products in short:</b></h4></td>
-            <td><textarea rows="4" cols="50" style="float:right" placeholder="Min 20 Words" id ="reason"></textarea>
+            <td align="center"><h4><b>Society/Group:</b></h4></td>
+            <td><input style="float:right"  id ="society"></input>
+            </tr>
+            <tr>
+            <td align="center"><h4><b>Reason for booking:</b></h4></td>
+            <td><textarea rows="4" cols="50" style="float:right" placeholder="Event name, Location" id ="reason"></textarea>
             </td>
         </tr>';
 
@@ -175,9 +179,9 @@
 
         <tfoot>
         <tr>
-            <td><a href="{{'/'}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+            <td><a href="{{'/'}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Add More Items</a></td>
             <td colspan="1"></td>
-            <td><a href="#" class="btn btn-success btn-block" id="checkout" onclick="checkout()">Checkout <i class="fa fa-angle-right"></i></a></td>
+            <td><a href="#" class="btn btn-success btn-block" id="checkout" onclick="checkout()">Book <i class="fa fa-angle-right"></i></a></td>
         </tr>
         </tfoot>
     </table>
@@ -197,8 +201,12 @@ Redirecting to Home page
 </div>
 
 <script>
+
+var active=1;
     function DeleteandReload(id)
     {
+      if(active)
+      {
         $.ajax({
             type: "POST",
 
@@ -208,25 +216,32 @@ Redirecting to Home page
                 location.reload();
             }
         });
+      }
     }
 
     function checkout()
     {
+      if(active)
+      {
+        active=0;
+        $("body").css("cursor", "wait");
         var r=document.getElementById("reason").value;
-        document.getElementById("checkout").disabled = true;
+        var s=document.getElementById("society").value;
         $.ajax({
             type: "POST",
             url: '/checkout',
-            data: {'Reason':r,_token: '{{csrf_token()}}'},
+            data: {'Reason':r,_token: '{{csrf_token()}}','Society':s},
             success: function( msg ) {
                 alert("Request Send To Admin");
                 window.location = "/";
+                $("body").css("cursor", "default");
             },
             error: function (data, textStatus, errorThrown) {
                 console.log(data);
 
             }
         });
+      }
     }
     </script>
 

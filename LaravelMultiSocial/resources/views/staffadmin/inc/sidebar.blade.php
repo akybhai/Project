@@ -22,7 +22,7 @@
         <li><a id="addprodsidenav" class="app-menu__item" href="{{ route('adminstaff.products')}}"><i class="app-menu__icon fa fa-plus-circle"></i><span class="app-menu__label">Products</span></a></li>
         <li><a id="userlistsidenav" class="app-menu__item" href="{{ route('adminstaff.userlist')}}"><i class="app-menu__icon fa fa-address-book-o"></i><span class="app-menu__label">Users List</span></a></li>
         <li><a id="logssidenav" class="app-menu__item"  href="{{ route('adminstaff.logs')}}"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Logs</span></a></li>
-        <li><a id="helppagesidenav" class="app-menu__item" href="#"><i class="app-menu__icon fa fa-question-circle"></i><span class="app-menu__label">Help Page</span></a></li>
+        <!-- <li><a id="helppagesidenav" class="app-menu__item" href="#"><i class="app-menu__icon fa fa-question-circle"></i><span class="app-menu__label">Help Page</span></a></li> -->
       </ul>
     </aside>
 
