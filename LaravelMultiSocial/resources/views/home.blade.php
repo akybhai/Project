@@ -21,7 +21,17 @@
                       <div class="form-group">
                         <label class="control-label col-sm-2" for="tel">Mobile No:</label>
                         <div class="col-sm-10">
-                          <input type="tel" class="form-control" id="tel" placeholder="Enter Mobile no" name="tel">
+                          <input type="tel" class="form-control" id="tel" placeholder="Enter Mobile no" name="tel"
+                          value="<?php
+                          use App\User;
+                          $user = User::find(Auth::id());
+                          if($user->mobile!=null)
+                          {
+                              echo $user->mobile;
+                          }
+
+                          ?>"
+                          >
                         </div>
                       </div>
                       <div class="form-group">

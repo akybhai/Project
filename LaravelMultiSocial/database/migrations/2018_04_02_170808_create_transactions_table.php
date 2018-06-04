@@ -25,6 +25,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('Full_Day')->default(1);
             $table->datetime('return_date')->nullable();
             $table->string('booking_reason')->nullable();
+            $table->string('society')->nullable();
             $table->string('booking_status');
             $table->string('reject_comment')->nullable();
             $table->string('return_comment')->nullable();
