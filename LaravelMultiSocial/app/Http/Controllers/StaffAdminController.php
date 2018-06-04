@@ -187,8 +187,10 @@ class StaffAdminController extends Controller
                 ->header('Content-Disposition', 'attachment; filename="activity_logs_download.csv"')
                 ->header('Pragma','no-cache')
                 ->header('Expires','0');
+                view('download',['record_found' =>$tot_record_found]);
         }
-        view('download',['record_found' =>$tot_record_found]);
+
+        return back();
     }
 
     public function showuserlist()
@@ -264,30 +266,8 @@ class StaffAdminController extends Controller
          return view('products.edit', compact('product','category', 'categorySelected'));
      }
 
-       //manmaya's
-        public function pendingdata()  // function to get all records having status pending
-        {
-        #trying a single line comment
-        //echo '<pre>';
-        //$articles = Article::all(); // getting all the records using all()
-         $articles = Transaction::where('booking_status','pending')->get();
-        //return Transaction::all();
-        //return $articles;  // return $articles;
-          return view('staffadmin.pages.requests')->with('articles',$articles);
-          //$products= Product::whereIn('id','$articles')->get();
-        // return view('staffadmin.pages.requests', ['transactions' => $articles]); // passing to data to view home.blade.php
-        //return view('pages.home')->with('articles',$articles);
-        // ,['articles'=> $articles]
-        //  print_r($articles);
-        //echo '</pre>';
-        }
-        public function userlist()  // show userlist
-        {
-          $userlists = User::all();
-          return view('staffadmin.pages.userlist',['userlists' => $userlists]);
-        }
 
-
+//sanjeev
         public function singleproductdashboard(Request $request)
         {
             $prodID = $request->productID;
@@ -333,5 +313,49 @@ class StaffAdminController extends Controller
             return json_encode(array($products, $productImg,$inTran,$users));
 
         }
+
+
+        //manmaya's
+
+        public function pendingdata()  // function to get all records having status pending
+        {
+
+          $articles=DB::table('transactions')
+            ->leftJoin('products', 'transactions.product_id', '=', 'products.productID')
+
+            ->leftJoin('users', 'transactions.user_id', '=', 'users.id')
+
+            ->where('booking_status','pending')
+            //->ON('booking_status','pending')
+            ->select('transactions.*','products.name as productname','users.name as username','mobile')
+
+            ->get();
+        return view('staffadmin.pages.requests', ['articles' => $articles]);
+        #trying a single line comment
+        //echo '<pre>';
+        //$articles = Article::all(); // getting all the records using all()
+        // $articles = Transaction::where('booking_status','pending')->get();
+        //return Transaction::all();
+        //return $articles;  // return $articles;
+        //  return view('staffadmin.pages.requests')->with('articles',$articles);
+          //$products= Product::whereIn('id','$articles')->get();
+        // return view('staffadmin.pages.requests', ['transactions' => $articles]); // passing to data to view home.blade.php
+        //return view('pages.home')->with('articles',$articles);
+        // ,['articles'=> $articles]
+        //  print_r($articles);
+        //echo '</pre>';
+        }
+
+
+
+
+
+
+        public function userlist()  // show userlist
+        {
+          $userlists = User::all();
+          return view('staffadmin.pages.userlist',['userlists' => $userlists]);
+        }
+
 
 }

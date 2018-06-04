@@ -85,19 +85,18 @@
 
     <div class="fluid-container">
         <div id="SectionPage" class="row grid-divider ">
-            <div id="Leftpane" class="col-sm-3" style="min-height:1230">
+            <div id="Leftpane" class="col-sm-3" style="border-right: solid">
                 <div class="innerclass">
 
                     <center>
                         <h2><i>NUIG Societies Inventory Bookings</i></h2>
                         <h4>Book the inventory from the SocsBox in Easy steps: <br><br>
                             <ul class="list-group" style="padding:10px">
-                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">1</span>Select Suitable Category</li>
+                                <li class="list-group-item list-group-item-action active"> <span class="badge badge-primary badge-pill">1</span>Select Suitable Category</li>
                                 <li class="list-group-item"> <span class="badge badge-primary badge-pill">2</span>Select Product</li>
-                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">3</span>View Product Description</li>
-                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">4</span>Check Availability</li>
-                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">5</span>Add Product to Cart</li>
-                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">6</span>Goto Cart Page</li>
+                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">3</span>Check Availability</li>
+                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">4</span>Add Product to Cart</li>
+                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">5</span>Goto Cart & Book</li>
                             </ul>
                         </h4>
                     </center>
@@ -211,7 +210,7 @@
 
             </script>
 
-            <div id="RightPane" class=" col-sm-5 col-sm-offset-2">
+            <div id="RightPane" class=" col-sm-6 col-sm-offset-1">
                 <div class="Cat">
                     <center>
                         <h2>Select Suitable Category</h2>
