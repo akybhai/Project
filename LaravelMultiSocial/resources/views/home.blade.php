@@ -33,10 +33,18 @@
                           ?>"
                           >
                         </div>
+
                       </div>
+                      @if($user->mobile==null)
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-default">Submit</button>
+                          <div class="col-sm-1"><input  type="checkbox" class="btn btn-primary" required> </input> </div><div class=" col-sm-11"> I understand that my data is used for SocsBox purpose only, and can be deleted on request to admin.</div>
+                        </div>
+                      </div>
+                      @endif
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <button  type="submit" class="btn btn-primary">Submit</button>
                         </div>
                       </div>
                     </form>

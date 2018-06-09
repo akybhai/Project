@@ -120,7 +120,7 @@
                    <div class="form-group">
                        <label class="control-label">Booking_Reason</label>
                        <div>
-                           <input type="text" class="form-control input-lg" name="{{$article->booking_reason}}" readonly>
+                           <input type="text" class="form-control input-lg" name="" value="{{$article->booking_reason}}" readonly>
                        </div>
                    </div>
                    <div class="form-group">

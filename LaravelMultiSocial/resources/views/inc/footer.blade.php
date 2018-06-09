@@ -88,6 +88,10 @@
         #myFooter .twitter:hover {
             color: #00aced;
         }
+        #myFooter .youtube:hover {
+            color: #bb0000;
+        }
+
 
         #myFooter .btn {
             color: white;
@@ -119,7 +123,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3" align="center">
-                <h3 class="logo"><a href="http://www.nuigalway.ie/">NUI Galway</h3>
+                <h3 class="logo"><a target="_blank" href="http://www.nuigalway.ie/">NUI Galway</h3>
                 <img class="img-thumbnail" src="sa/img/nui-logo.jpg" alt="nui-logo" width="250px" height="80px" align="middle"></a>
             </div>
             <div class="col-sm-2">
@@ -137,13 +141,14 @@
                     National University of Ireland,
                     University Road, Galway, Ireland.</p>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3" align="center">
+                <h5>Connect with us:</h5>
                 <div class="social-networks">
                     <a href="https://twitter.com/socsboxnuig" class="twitter"><i class="fa fa-twitter"></i></a>
                     <a href="https://www.facebook.com/socs.box/" class="facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="https://www.youtube.com/channel/UC5FLetKWgGOX9wSrHBRr_0A" class="facebook"><i class="fa fa-youtube"></i></a>
+                    <a href="https://www.youtube.com/channel/UC5FLetKWgGOX9wSrHBRr_0A" class="youtube"><i class="fa fa-youtube"></i></a>
                 </div>
-                <button type="button" class="btn btn-default">Connect with us</button>
+                <!-- <button type="button" class="btn btn-default">Connect with us</button> -->
             </div>
         </div>
     </div>

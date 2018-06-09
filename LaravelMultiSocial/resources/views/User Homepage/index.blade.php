@@ -89,14 +89,14 @@
                 <div class="innerclass">
 
                     <center>
-                        <h2><i>NUIG Societies Inventory Bookings</i></h2>
-                        <h4>Book the inventory from the SocsBox in Easy steps: <br><br>
+                        <h2><i>NUIG Societies equipment Bookings</i></h2>
+                        <h4>Book an equipment from SocsBox in easy steps: <br><br>
                             <ul class="list-group" style="padding:10px">
-                                <li class="list-group-item list-group-item-action active"> <span class="badge badge-primary badge-pill">1</span>Select Suitable Category</li>
+                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">1</span>Select Suitable Category</li>
                                 <li class="list-group-item"> <span class="badge badge-primary badge-pill">2</span>Select Product</li>
                                 <li class="list-group-item"> <span class="badge badge-primary badge-pill">3</span>Check Availability</li>
                                 <li class="list-group-item"> <span class="badge badge-primary badge-pill">4</span>Add Product to Cart</li>
-                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">5</span>Goto Cart & Book</li>
+                                <li class="list-group-item"> <span class="badge badge-primary badge-pill">5</span>Go to Cart & Book</li>
                             </ul>
                         </h4>
                     </center>
@@ -190,6 +190,7 @@
                         var prodDisplay = document.getElementById('ProdBody');
                         prodDisplay.innerHTML = prodRequest.responseText;
                         $('#ProdTable').DataTable();
+                      
                     }
                 }
 
@@ -213,7 +214,7 @@
             <div id="RightPane" class=" col-sm-6 col-sm-offset-1">
                 <div class="Cat">
                     <center>
-                        <h2>Select Suitable Category</h2>
+                        <h2>Select Category</h2>
                     </center>
                     <div class="grid" id="catgrid">
 
@@ -227,7 +228,7 @@
             <div id="RightPane2" class=" col-sm-8 ">
                 <div class="Prod" style="display: none;">
                     <center>
-                        <h2>Select Suitable Product</h2>
+                        <h2>Select Product</h2>
                     </center>
                     <table id="ProdTable" class="display" style="width:100%">
                         <thead>
@@ -260,9 +261,10 @@
 
             </div>
             <script>
-                function BackClick() {
-                    $(".Cat").show();
-                    $(".Prod").hide();
+                function BackClick() {BackClick
+                  location.reload();
+                    // $(".Cat").show();
+                    // $(".Prod").hide();
                 }
             </script>
         </div>

@@ -160,8 +160,8 @@ class StaffAdminController extends Controller
 
         $prod_name=DB::table('products')->where('productID',$productID )->pluck('name');
     //    $staff_name = DB::table('users')->where('id',$staff_inch )->pluck('name');
-       $returned_by = DB::table('transactions')->where('bookID',$bookingID )->pluck('collect_user_name');
-       $mob_no = DB::table('transactions')->where('bookID',$bookingID )->pluck('collect_user_mob');
+       $returned_by = DB::table('transactions')->where('booking_id',$bookingID )->pluck('collect_user_name');
+       $mob_no = DB::table('transactions')->where('booking_id',$bookingID )->pluck('collect_user_mob');
 
         $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"returned", "performed_by"=>"$staff_inch", "cat_client"=>"$returned_by[0]($mob_no[0])"));
         return redirect()->route('home');
@@ -208,7 +208,7 @@ class StaffAdminController extends Controller
      public function showProducts(Request $request)
      {
        // Initial Load
-      // Get list of category in alphabetical order
+      // Get list of category in alphabetical order1
       $cat = Category::orderBy('category')
                           ->get();
       // get the name of the first category

@@ -101,6 +101,7 @@
             <tr>
               <th>Id</th>
               <th>Product Name</th>
+              <th>Society</th>
               <th></th>
             </tr>
             </thead>
@@ -108,13 +109,14 @@
 
 
                 <?php
-                $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=? order by Start_Date',[date("Y-m-d")]);
+                $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs, society as soc from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=? order by Start_Date',[date("Y-m-d")]);
 
                 foreach($inTran as $t)
                 {
                     $prodname=\DB::select('select name,productID as id from products where productID=?',[$t->prod]);
                     echo "<tr><td>".$t->id."</td>";
                     echo '<td><a href="#"  data-toggle="modal" data-target="#product_view" class="pull-left singleProductView" onclick="singleProductViewFunc('.$prodname[0]->id.','.$t->id.')">'.$prodname[0]->name."</td>";
+                    echo "<td>".$t->soc."</td>";
                     echo '<td>
                 <button type="button" class="btn btn-info" data-toggle="modal" onclick="updatecpnb('.$t->id.','.$t->prod.')" data-target="#exampleModalCenter">
                   Collect
@@ -211,18 +213,20 @@
             <tr>
               <th>Id</th>
               <th>Product Name</th>
+              <th>Society</th>
               <th></th>
             </tr>
             </thead>
             <tbody>
             <?php
-            $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs from transactions WHERE booking_status  in ("collected") and Date(End_Date)=? order by End_Date',[date("Y-m-d")]);
+            $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs,society as soc from transactions WHERE booking_status  in ("collected") and Date(End_Date)=? order by End_Date',[date("Y-m-d")]);
 
             foreach($inTran as $t)
             {
                 $prodname=\DB::select('select name,productID as id from products where productID=?',[$t->prod]);
                 echo '<tr><td>'.$t->id."</td>";
                 echo '<td><a href="#"  data-toggle="modal" data-target="#product_view"  class="pull-left singleProductView" onclick="singleProductViewFunc('.$prodname[0]->id.','.$t->id.')">'.$prodname[0]->name."</td>";
+                echo "<td>".$t->soc."</td>";
                 echo '<td>
                 <button type="button" class="btn btn-primary" data-toggle="modal" onclick="updaterpnb('.$t->id.','.$t->prod.')" data-target="#exampleModalCenter1">
                   Return
