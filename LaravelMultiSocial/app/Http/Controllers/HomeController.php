@@ -40,6 +40,7 @@ class HomeController extends Controller
       }
       else {
 
+
           return view('home');
       }
     }
@@ -52,13 +53,6 @@ class HomeController extends Controller
     public function userRegistration(Request $request)
     {
 
-////      // Validate
-//    $this->validate($request,[
-//      'soc' => 'required',
-//      'post' => 'required',
-//      'tel' => 'nullable|integer'
-//    ]);
-    //get the user you want to update field
     $user = User::find(Auth::id());
 
     //Check if the the user mobile number is present.
@@ -72,5 +66,21 @@ class HomeController extends Controller
 
     return redirect('/');
     }
+
+    // User's Request Page
+  public function userrequestdata(Request $request)
+  {
+    $user = User::find(Auth::id());
+
+    $getData = DB::table('transactions')->where([['user_id',$user->id],['booking_status','pending']])->get();
+    $getDataa = DB::table('transactions')->where([['user_id',$user->id],['booking_status','approved']])->orWhere([['user_id',$user->id],['booking_status','collected']])->orWhere([['user_id',$user->id],['booking_status','returned']])->get();
+    $getDataaa = DB::table('transactions')->where([['user_id',$user->id],['booking_status','rejected']])->get();
+  //  return view('User Homepage.userrequest');
+    //return view('User Homepage.userrequest',compact('getData'));
+    return view('User Homepage.userrequest',compact('getData','getDataa','getDataaa'));
+
+    //return view('User Homepage.userrequest');
+
+  }
 
 }

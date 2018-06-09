@@ -165,8 +165,12 @@
             }
 
             echo '<tr>
-            <td align="center"><h4><b>Please mention reason for the products in short:</b></h4></td>
-            <td><textarea rows="4" cols="50" style="float:right" placeholder="Min 20 Words" id ="reason"></textarea>
+            <td align="center"><h4><b>Society/Group:</b></h4></td>
+            <td><input style="float:right"  id ="society"></input>
+            </tr>
+            <tr>
+            <td align="center"><h4><b>Reason for booking:</b></h4></td>
+            <td><textarea rows="4" cols="50" style="float:right" placeholder="Event name, Location" id ="reason"></textarea>
             </td>
         </tr>';
 
@@ -175,9 +179,9 @@
 
         <tfoot>
         <tr>
-            <td><a href="{{'/'}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+            <td><a href="{{'/'}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Add More Items</a></td>
             <td colspan="1"></td>
-            <td><a href="#" class="btn btn-success btn-block" id="checkout" onclick="checkout()">Checkout <i class="fa fa-angle-right"></i></a></td>
+            <td><a href="#" class="btn btn-success btn-block" id="checkout" onclick="checkout()">Book <i class="fa fa-angle-right"></i></a></td>
         </tr>
         </tfoot>
     </table>
@@ -196,37 +200,92 @@ Redirecting to Home page
     @endif
 </div>
 
+
+<div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h4 class="modal-title" id="myDelModalLabel">Modal title</h4> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete ?
+      </div>
+      <div class="modal-footer">
+
+
+          <button class="btn btn-danger" onClick="submitform()" value="Delete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete Modal -->
 <script>
+
+
+
+var active=1;
+
+var idval=-1;
+
+function submitform()
+{
+  $.ajax({
+      type: "POST",
+
+      url: '/deletefromcart',
+      data: {'CartID':idval,_token: '{{csrf_token()}}'},
+      success: function( msg ) {
+          location.reload();
+      }
+  });
+  $('#myDeleteModal').modal('hide');
+}
+
     function DeleteandReload(id)
     {
-        $.ajax({
-            type: "POST",
-
-            url: '/deletefromcart',
-            data: {'CartID':id,_token: '{{csrf_token()}}'},
-            success: function( msg ) {
-                location.reload();
-            }
-        });
+      if(active)
+      {
+          idval=id;
+          $('#myDeleteModal').modal('show');
+      }
     }
 
     function checkout()
     {
-        var r=document.getElementById("reason").value;
-        document.getElementById("checkout").disabled = true;
-        $.ajax({
-            type: "POST",
-            url: '/checkout',
-            data: {'Reason':r,_token: '{{csrf_token()}}'},
-            success: function( msg ) {
-                alert("Request Send To Admin");
-                window.location = "/";
-            },
-            error: function (data, textStatus, errorThrown) {
-                console.log(data);
+      if(active)
+      {
+        active=0;
 
-            }
-        });
+        var r=document.getElementById("reason").value;
+        var s=document.getElementById("society").value;
+
+        if(r=="" || s=="" )
+        {
+          alert("Enter all fields");
+          active=1;
+        }
+
+        else{
+
+          $("body").css("cursor", "wait");
+            $.ajax({
+                type: "POST",
+                url: '/checkout',
+                data: {'Reason':r,_token: '{{csrf_token()}}','Society':s},
+                success: function( msg ) {
+                    alert("Request Send To Admin");
+                    window.location = "/";
+                    $("body").css("cursor", "default");
+                },
+                error: function (data, textStatus, errorThrown) {
+                    console.log(data);
+
+                }
+            });
+        }
+    }
     }
     </script>
 

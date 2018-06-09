@@ -6,6 +6,8 @@ tr, table, td, th {
 
   text-align: center;
 }
+
+
 </style>
     <div class="app-title">
       <div>
@@ -25,18 +27,24 @@ tr, table, td, th {
       <div class="tile">
         <h3 class="tile-title">Activity logs</h3>
         <div class="table-responsive">
-          <table class="table table-striped">
+          <table class="table table-striped" id="logstable">
             <thead>
               <tr>
                 <th width="20%">Timestamp</th>
-                <th width="80%">Activity</th>
+                <th width="20%">Product/User</th>
+                <th width="20%">Action</th>
+                <th width="20%">Incharge</th>
+                <th width="20%">Category/Client</th>
               </tr>
             </thead>
             <tbody>
               @foreach($activity as $row)
               <tr>
                 <td width="20%">{{$row->event_timestamp}}</td>
-                <td width="80%">{{$row->event}}</td>
+                <td width="20%">{{$row->prod_user}}</td>
+                <td width="20%">{{$row->action}}</td>
+                <td width="20%">{{$row->performed_by}}</td>
+                <td width="20%">{{$row->cat_client}}</td>
               </tr>
               @endforeach
             </tbody>
@@ -44,5 +52,11 @@ tr, table, td, th {
         </div>
       </div>
     </div>
+    <script type="text/javascript" src="{{ asset('sa/js/jquery.dataTables.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+    <script>
+    $('#logstable').DataTable();
+    </script>
 
 @endsection
