@@ -119,23 +119,24 @@ class StaffAdminController extends Controller
     function collect(Request $req){
         $req->validate([
             'prodID' => 'required|integer',
-            'studID' => 'required|integer',
+            'mob' => 'required',
             'staff' => 'required'
         ]);
 
         $productID = $req->input('prodID');
-        $collect_user_id = $req->input('studID');
+        $collect_user_mob = $req->input('mob');
+        $collect_user_name = $req->input('collectUserName');
         $bookingID = $req->input('bookID');
         $staff_inc = $req->input('staff');
 
 
-        $data = array("collect_user_id"=>$collect_user_id, "staff_incharge_collect_name"=>$staff_inc, "booking_status"=>"collected", "product_id"=>"$productID");
+        $data = array("collect_user_mob"=>$collect_user_mob, "staff_incharge_collect_name"=>$staff_inc, "booking_status"=>"collected", "product_id"=>"$productID", "collect_user_name"=>$collect_user_name);
         DB::table('transactions')->where('booking_id', $bookingID)->update($data);
 
         $prod_name=DB::table('products')->where('productID',$productID )->pluck('name');
     //    $staff_name = DB::table('users')->where('name',$staff_inc )->pluck('name');
 
-        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"collected", "performed_by"=>"$staff_inc"));
+        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"collected", "performed_by"=>"$staff_inc", "cat_client"=>"$collect_user_name($collect_user_mob)"));
 
     //   $getData = DB::table('activities')->insert(array("event"=>"Product ($productID) collected by User ($collect_user_id) from Staff ($staff_inc)"));
        return redirect()->route('home');
@@ -159,8 +160,10 @@ class StaffAdminController extends Controller
 
         $prod_name=DB::table('products')->where('productID',$productID )->pluck('name');
     //    $staff_name = DB::table('users')->where('id',$staff_inch )->pluck('name');
+       $returned_by = DB::table('transactions')->where('booking_id',$bookingID )->pluck('collect_user_name');
+       $mob_no = DB::table('transactions')->where('booking_id',$bookingID )->pluck('collect_user_mob');
 
-        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"returned", "performed_by"=>"$staff_inch"));
+        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"returned", "performed_by"=>"$staff_inch", "cat_client"=>"$returned_by[0]($mob_no[0])"));
         return redirect()->route('home');
     }
 
@@ -173,22 +176,24 @@ class StaffAdminController extends Controller
 
     //export to excel logs
     public function export(Request $request){
-        $activities=DB::table('activity_logs')->select('event_timestamp','prod_user','action','performed_by')->orderBy('event_timestamp', 'DESC')->get();
+        $activities = DB::table('activity_logs')->select('event_timestamp','prod_user','action','performed_by','cat_client')->orderBy('event_timestamp', 'DESC')->get();
         $tot_record_found=0;
         if(count($activities)>0){
             $tot_record_found=1;
             //First Methos
-            $export_data="Timestamp,Product/User, ,Action,Incharge\n";
+            $export_data="Timestamp,Product/User, ,Action,Incharge, ,Category/Client\n";
             foreach($activities as $value){
-                $export_data.=$value->event_timestamp.',' .$value->prod_user.',' .' '.','.$value->action.',' .$value->performed_by."\n";
+                $export_data.=$value->event_timestamp.',' .$value->prod_user.',' .' '.','.$value->action.',' .$value->performed_by.','.$value->cat_client."\n";
             }
             return response($export_data)
                 ->header('Content-Type','application/csv')
                 ->header('Content-Disposition', 'attachment; filename="activity_logs_download.csv"')
                 ->header('Pragma','no-cache')
                 ->header('Expires','0');
+                view('download',['record_found' =>$tot_record_found]);
         }
-        view('download',['record_found' =>$tot_record_found]);
+
+        return back();
     }
 
     public function showuserlist()
@@ -203,7 +208,7 @@ class StaffAdminController extends Controller
      public function showProducts(Request $request)
      {
        // Initial Load
-      // Get list of category in alphabetical order
+      // Get list of category in alphabetical order1
       $cat = Category::orderBy('category')
                           ->get();
       // get the name of the first category
@@ -264,30 +269,8 @@ class StaffAdminController extends Controller
          return view('products.edit', compact('product','category', 'categorySelected'));
      }
 
-       //manmaya's
-        public function pendingdata()  // function to get all records having status pending
-        {
-        #trying a single line comment
-        //echo '<pre>';
-        //$articles = Article::all(); // getting all the records using all()
-         $articles = Transaction::where('booking_status','pending')->get();
-        //return Transaction::all();
-        //return $articles;  // return $articles;
-          return view('staffadmin.pages.requests')->with('articles',$articles);
-          //$products= Product::whereIn('id','$articles')->get();
-        // return view('staffadmin.pages.requests', ['transactions' => $articles]); // passing to data to view home.blade.php
-        //return view('pages.home')->with('articles',$articles);
-        // ,['articles'=> $articles]
-        //  print_r($articles);
-        //echo '</pre>';
-        }
-        public function userlist()  // show userlist
-        {
-          $userlists = User::all();
-          return view('staffadmin.pages.userlist',['userlists' => $userlists]);
-        }
 
-
+//sanjeev
         public function singleproductdashboard(Request $request)
         {
             $prodID = $request->productID;
@@ -333,5 +316,49 @@ class StaffAdminController extends Controller
             return json_encode(array($products, $productImg,$inTran,$users));
 
         }
+
+
+        //manmaya's
+
+        public function pendingdata()  // function to get all records having status pending
+        {
+
+          $articles=DB::table('transactions')
+            ->leftJoin('products', 'transactions.product_id', '=', 'products.productID')
+
+            ->leftJoin('users', 'transactions.user_id', '=', 'users.id')
+
+            ->where('booking_status','pending')
+            //->ON('booking_status','pending')
+            ->select('transactions.*','products.name as productname','users.name as username','mobile')
+
+            ->get();
+        return view('staffadmin.pages.requests', ['articles' => $articles]);
+        #trying a single line comment
+        //echo '<pre>';
+        //$articles = Article::all(); // getting all the records using all()
+        // $articles = Transaction::where('booking_status','pending')->get();
+        //return Transaction::all();
+        //return $articles;  // return $articles;
+        //  return view('staffadmin.pages.requests')->with('articles',$articles);
+          //$products= Product::whereIn('id','$articles')->get();
+        // return view('staffadmin.pages.requests', ['transactions' => $articles]); // passing to data to view home.blade.php
+        //return view('pages.home')->with('articles',$articles);
+        // ,['articles'=> $articles]
+        //  print_r($articles);
+        //echo '</pre>';
+        }
+
+
+
+
+
+
+        public function userlist()  // show userlist
+        {
+          $userlists = User::all();
+          return view('staffadmin.pages.userlist',['userlists' => $userlists]);
+        }
+
 
 }

@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 Use DB;
 use App\User;
 
@@ -12,26 +11,26 @@ class ListsController extends Controller
   public function makestaff($id)
   {
        DB:: table('users')->where('id',$id)->update(['role_id'=>'2']);
-
-       //save logs
-    //   $getData = DB::table('activities')->insert(array("event"=>"User ($id) was promoted to staff"));
-    $user_name = DB:: table('users')->where('id',$id)->pluck('name');
        $user = User::find(Auth::id());
-         $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$user_name[0]($id)", "action"=>"promoted", "performed_by"=>"$user->name"));
+
+       $name = DB::table('users')->where('id',$id )->pluck('name')[0];
+       //save logs
+       $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$name($id)", "action"=>"promoted", "performed_by"=>"$user->name", "cat_client"=>"-"));
        return back();
   }
 
   public function deleteuser($id)
 
   {
-    $user_name = DB:: table('users')->where('id',$id)->pluck('name');
-    DB:: table('users')->where('id',$id)->delete();
+    $user = User::find(Auth::id());
 
+    $name = DB::table('users')->where('id',$id )->pluck('name')[0];
     //save logs
-//    $getData = DB::table('activities')->insert(array("event"=>"User ($id) was deleted"));
-//    $user_name = DB:: table('users')->where('id',$id)->pluck('name');
-       $user = User::find(Auth::id());
-         $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$user_name[0]($id)", "action"=>"removed", "performed_by"=>"$user->name"));
+
+    DB:: table('users')->where('id',$id)->delete();
+    $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$name($id)", "action"=>"removed", "performed_by"=>"$user->name", "cat_client"=>"-"));
+    //save logs
+  //  $getData = DB::table('activities')->insert(array("event"=>"User ($id) was deleted"));
     return back();
       //session(0->flash('notify','User has been removed');
   }

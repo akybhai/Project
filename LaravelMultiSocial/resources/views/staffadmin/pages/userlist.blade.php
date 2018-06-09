@@ -50,8 +50,9 @@ if ($user->role_id == '2')
                   <th>UserId</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Position</th>
-                  <th>Society</th>
+                  <th>Mobile No</th>
+                  <!-- <th>Position</th> -->
+                  <!-- <th>Society</th> -->
                   <th>Role</th>
                   <?php
                   if($set)
@@ -75,14 +76,25 @@ if ($user->role_id == '2')
                     <td>{{$userlist->id}}</td>
                     <td>{{$userlist->name}}</td>
                     <td>{{$userlist->email}}</td>
-                    <td>{{$userlist->post}}</td>
-                    <td>{{$userlist->society}}</td>
-                    <td>{{$userlist->role_id}}</td>
+                    <td>{{$userlist->mobile}}</td>
+                    <!-- <td>{{$userlist->post}}</td> -->
+                    <!-- <td>{{$userlist->society}}</td> -->
+                    <!-- <td>{{$userlist->role_id}}</td> -->
+                    <td>
+                    @if($userlist->role_id==1)
+                       Admin
+                    @elseif($userlist->role_id==2)
+                       Staff
+                    @else
+                       User
+                       @endif
+                    </td>
 
                     @if($set)
 
-                    
+
                       <td>
+                        @if($userlist->role_id==3 )
                         <form method="POST" action="{{ url('mak/stf/'.$userlist->id)}}" style="float:left;">
 
                   {{ csrf_field() }}
@@ -95,6 +107,16 @@ if ($user->role_id == '2')
                   {{ csrf_field() }}
                   <button class="btn btn-danger" type="submit" value="approve">Delete User</button>
                 </form>
+                @endif
+                @if($userlist->role_id==2 )
+
+
+                <form method="POST" action="{{ url('del/usr/'.$userlist->id)}}" style="float:left;">
+
+          {{ csrf_field() }}
+          <button class="btn btn-danger" type="submit" value="approve">Delete Staff</button>
+        </form>
+        @endif
                       </td>
 
 

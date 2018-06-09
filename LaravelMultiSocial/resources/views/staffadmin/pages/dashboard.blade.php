@@ -101,6 +101,7 @@
             <tr>
               <th>Id</th>
               <th>Product Name</th>
+              <th>Society</th>
               <th></th>
             </tr>
             </thead>
@@ -108,13 +109,14 @@
 
 
                 <?php
-                $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=? order by Start_Date',[date("Y-m-d")]);
+                $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs, society as soc from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=? order by Start_Date',[date("Y-m-d")]);
 
                 foreach($inTran as $t)
                 {
                     $prodname=\DB::select('select name,productID as id from products where productID=?',[$t->prod]);
                     echo "<tr><td>".$t->id."</td>";
                     echo '<td><a href="#"  data-toggle="modal" data-target="#product_view" class="pull-left singleProductView" onclick="singleProductViewFunc('.$prodname[0]->id.','.$t->id.')">'.$prodname[0]->name."</td>";
+                    echo "<td>".$t->soc."</td>";
                     echo '<td>
                 <button type="button" class="btn btn-info" data-toggle="modal" onclick="updatecpnb('.$t->id.','.$t->prod.')" data-target="#exampleModalCenter">
                   Collect
@@ -157,8 +159,13 @@
                         </div>
 
                         <div class="form-group">
-                          <label class="control-label" for="studID"><b>Student ID:</b></label>
-                          <input type="studID"  class="form-control collect-from"  id="studID" placeholder="Enter student ID" name="studID" required>
+                          <label class="control-label" for="collectUserName"><b>Collector name:</b></label>
+                          <input type="collectUserName"  class="form-control collect-from"  id="collectUserName" placeholder="Enter name of collector" name="collectUserName" required>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="control-label" for="mob"><b>Mobile no:</b></label>
+                          <input type="mob"  class="form-control collect-from"  id="mob" placeholder="Enter mobile no." name="mob" required>
                         </div>
 
                         <div class="form-group">
@@ -206,18 +213,20 @@
             <tr>
               <th>Id</th>
               <th>Product Name</th>
+              <th>Society</th>
               <th></th>
             </tr>
             </thead>
             <tbody>
             <?php
-            $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs from transactions WHERE booking_status  in ("collected") and Date(End_Date)=? order by End_Date',[date("Y-m-d")]);
+            $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs,society as soc from transactions WHERE booking_status  in ("collected") and Date(End_Date)=? order by End_Date',[date("Y-m-d")]);
 
             foreach($inTran as $t)
             {
                 $prodname=\DB::select('select name,productID as id from products where productID=?',[$t->prod]);
                 echo '<tr><td>'.$t->id."</td>";
                 echo '<td><a href="#"  data-toggle="modal" data-target="#product_view"  class="pull-left singleProductView" onclick="singleProductViewFunc('.$prodname[0]->id.','.$t->id.')">'.$prodname[0]->name."</td>";
+                echo "<td>".$t->soc."</td>";
                 echo '<td>
                 <button type="button" class="btn btn-primary" data-toggle="modal" onclick="updaterpnb('.$t->id.','.$t->prod.')" data-target="#exampleModalCenter1">
                   Return
@@ -444,7 +453,7 @@
         <?php
         $inTran = \DB::select('select count(*) as c,name from  products b where productID not in(select product_id from transactions a WHERE Date(Start_Date)<=? and Date(End_Date)>=? AND booking_status in ("approved")) GROUP BY name ORDER BY name ',[date("Y-m-d"),date("Y-m-d")]);
 
-        for($t=0;$t< count($inTran) and $t<3; $t++ )
+        for($t=0;$t< count($inTran); $t++ )
         {
             echo "<tr><td>".$inTran[$t]->name."</td>";
             echo "<td>".$inTran[$t]->c."</td>";
