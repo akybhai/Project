@@ -61,7 +61,7 @@ class ProductsController extends Controller
         'cover_image' => 'image|nullable|max:1999',
         'help_doc' => 'nullable|mimes:pdf|max:2048'
       ]);
-      
+
 	//check the uniqueness of the Product ID
       $prodIDCount = Product::where('productID', $request->input('productID'))
              ->count();
@@ -138,7 +138,7 @@ class ProductsController extends Controller
     //  $getData = DB::table('activities')->insert(array("event"=>"Product ($prodid) was added in category ($catname)"));
       $prod_name=DB::table('products')->where('productID',$prodid )->pluck('name');
       $user = User::find(Auth::id());
-      $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($prodid)", "action"=>"added", "performed_by"=>"$user->name"));
+      $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($prodid)", "action"=>"added", "performed_by"=>"$user->name", "cat_client"=>$catname));
       //redirect
       return redirect()->route('adminstaff.products') ;
     }
@@ -277,6 +277,12 @@ class ProductsController extends Controller
     {
         //delete Products
         $product = Product::find($id);
+        $prod_id = $product->productID;
+        $prod_name = $product->name;
+        $category = DB::table('products')->where('productID',$product->productID )->pluck('name');
+
+        $category=\DB::select('select category as c from  categories where id in (select category from products where productID=? )  ',[$product->productID]);
+
         $productImage = ProductImages::where('product_id',$product->productID)->first();
         $productDoc = product_documents::where('product_id',$product->productID)->first();
         $product->delete();
@@ -291,11 +297,11 @@ class ProductsController extends Controller
         {
         Storage::delete('public/product_documents/'.$productDoc->document_name);
         }
-        $productDoc->delete();  
+        $productDoc->delete();
         //save in log
     	//$prod_name=DB::table('products')->where('productID',$product->productID )->pluck('name');
-        //$user = User::find(Auth::id());
-          //$getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($prod_id)", "action"=>"deleted", "performed_by"=>"$user->name"));
+        $user = User::find(Auth::id());
+       $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name($prod_id)", "action"=>"deleted", "performed_by"=>"$user->name", "cat_client"=>$category[0]->c));
         return redirect()->route('adminstaff.products') ;
     }
 }
