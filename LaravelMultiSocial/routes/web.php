@@ -82,7 +82,7 @@ Route::get('admin/userlist', 'StaffAdminController@showuserlist')->name('adminst
 //collect table update transactions
 Route::post('/insert', 'StaffAdminController@collect');
 //return table update transactions
-Route::post('/collecting', 'StaffAdminController@return');
+Route::post('/collecting', 'StaffAdminController@returnitem');
 
 Route::get('/getProdviewsingledashboard','StaffAdminController@singleproductdashboard');
 
@@ -123,19 +123,23 @@ Route::post('/checkout','CheckoutController@checkout');
 //manmaya's
 Route::get('admin/request','StaffAdminController@pendingdata')->name('adminstaff.request');
 
-Route::post('apvdec/but/{booking_id}', 'CreatesController@approvedeclinebutton');
 
-Route::post('apv/but/{booking_id}', 'CreatesController@approvebutton');
 
-Route::get('dec/but', function(Request $request)
-{
- $id=$request->input('booking_id');
- DB:: table('transactions')->where('booking_id',$id)->update(['booking_status'=>'declined']);
- DB::table ('transactions')->where('booking_id',$id)->update(['reject_comment'=>$request->input('reason')]);
- //return $id;
- return back();
- // echo $request->('ex');
-});
+//Route::post('apvdec/but/{booking_id}', 'CreatesController@approvedeclinebutton'); // this is for aprrove and decline button in pending page modal
+//
+//Route::post('apv/but/{booking_id}', 'CreatesController@approvebutton');
+//
+//
+////  This is for declining a request in approved data page where admin will decline a approved request due to fault product
+//Route::get('dec/but', function(Request $request)
+//{
+// $id=$request->input('booking_id');
+// DB:: table('transactions')->where('booking_id',$id)->update(['booking_status'=>'declined']);
+// DB::table ('transactions')->where('booking_id',$id)->update(['comment'=>$request->input('reason')]);
+// //return $id;
+// return back();
+// // echo $request->('ex');
+//});
 
 //get approved table
 Route::get('admin/request/approved', 'CreatesController@approvedData')->name('adminstaff.request.approved');

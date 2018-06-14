@@ -120,7 +120,7 @@
                    <div class="form-group">
                        <label class="control-label">Comments</label>
                        <div>
-                           <input type="text" class="form-control input-lg" name="" value="{{$article->reject_comment}}" readonly>
+                           <input type="text" class="form-control input-lg" name="" value="{{$article->comment}}" readonly>
                        </div>
                    </div>
                    <div class="form-group">

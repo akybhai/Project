@@ -170,7 +170,7 @@
             </tr>
             <tr>
             <td align="center"><h4><b>Reason for booking:</b></h4></td>
-            <td><textarea rows="4" cols="50" style="float:right" placeholder="Event name, Location" id ="reason"></textarea>
+            <td><textarea rows="4" cols="50" style="float:right" placeholder="Event name, Location, No. of guests" id ="reason"></textarea>
             </td>
         </tr>';
 

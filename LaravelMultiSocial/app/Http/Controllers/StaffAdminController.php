@@ -143,7 +143,7 @@ class StaffAdminController extends Controller
     }
 
     //product return form function
-    function return(Request $req){
+    function returnitem(Request $req){
 
         $req->validate([
             'comment' => 'required',
@@ -164,7 +164,8 @@ class StaffAdminController extends Controller
        $mob_no = DB::table('transactions')->where('booking_id',$bookingID )->pluck('collect_user_mob');
 
         $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name[0]($productID)", "action"=>"returned", "performed_by"=>"$staff_inch", "cat_client"=>"$returned_by[0]($mob_no[0])"));
-        return redirect()->route('home');
+
+                return redirect()->route('home');
     }
 
     //function for logs.blade.php

@@ -2,6 +2,15 @@
 
 @section('admincontent')
 
+    <div class="app-title">
+        <div>
+            <h1><i class="fa fa-envelope"></i> Requests</h1>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="{{ route('home')}}">Dashboard</a></li>
+        </ul>
+    </div>
 <div class="bs-component" style="margin-bottom: 15px;">
        <div class="btn-group btn-group-toggle" data-toggle="buttons">
          <label class="btn btn-outline-info active btn-lg" onclick="pendingfunction()">
@@ -37,10 +46,13 @@
         <table class="table table-hover table table-light">
   <thead >
     <tr>
-      <th scope="col">Transaction ID</th>
+      <!-- <th scope="col">Transaction ID</th> -->
 
       <th scope="col">Product Name</th>
       <th scope="col">User Name</th>
+      <th scope="col">Society</th>
+      <th scope="col">Start_Date</th>
+      <th scope="col">End_Date</th>
 
       <th scope="col">Details</th>
 
@@ -53,10 +65,13 @@
 
     @if(count($articles)>0)
       @foreach($articles as $article)
-      <td> {{$article->booking_id}}</td>
+      <!-- <td> {{$article->booking_id}}</td> -->
       <!-- <td>{{$article->user_id}}</td> -->
       <td>{{$article->productname}}</td>
       <td>{{$article->username}}</td>
+      <td>{{$article->society}}</td>
+      <td>{{$article->start_date}}</td>
+      <td>{{$article->end_date}}</td>
 
 
 
@@ -66,7 +81,7 @@
 
   <button type="button" class="btn btn-primary "  data-toggle="modal" data-target={{'#'.$article->booking_id}}>
     <!-- <span class="glyphicon glyphicon-eye-open"></span> -->
-  View
+  View & Edit
   </button>
 
 
@@ -165,7 +180,7 @@
                    <div class="form-group">
                        <label class="control-label">Comments</label>
                        <div>
-                           <input type="text" class="form-control input-lg" name="comment" value="{{$article->reject_comment}}" required >
+                           <input type="text" class="form-control input-lg" name="comment" value="{{$article->comment}}" required >
                        </div>
                    </div>
                    <div class="form-group">

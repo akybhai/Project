@@ -15,7 +15,6 @@
                     @endif
                      <h1>{{auth()->user()->name}}</h1>
                     <h3>Welcome to Inventory System</h3>
-                    <h5>Your details.</h5>
                     <form method="POST" class="form-horizontal" action="{{route('home.post')}}" onsubmit="return(validate());" name="myForm">
                       {{ csrf_field() }}
                       <div class="form-group">

@@ -73,7 +73,7 @@ class CheckoutController  extends Controller
              // Set the receiver and subject of the mail.
              $message->to($admin, "Admin")->subject('New Booking request');
              // Set the sender
-             $message->from('a.ramaswamy1@nuigalway.ie','NUIGsocs Inventory Mail');
+             $message->from('s.halyal1@nuigalway.ie','NUIGsocs Inventory Mail');
              $message->cc($staffanduser);
          });
 
