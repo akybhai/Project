@@ -362,4 +362,16 @@ class StaffAdminController extends Controller
         }
 
 
+        /**
+         * Show the Adhoc Request Form.
+         *
+         * @return \Illuminate\Http\Response
+         */
+         public function showAdhocRequestForm()
+         {
+           // Get a instance of category
+
+          return view('staffadmin.pages.adhocRequest');
+         }
+
 }

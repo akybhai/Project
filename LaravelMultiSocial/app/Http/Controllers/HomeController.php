@@ -142,7 +142,7 @@ class HomeController extends Controller
     $getDataaa = DB::table('transactions')->where([['user_id',$user->id],['booking_status','declined']])->get();
   //  return view('User Homepage.userrequest');
     //return view('User Homepage.userrequest',compact('getData'));
-    return view('User Homepage.userrequest',compact('getData','getDataa','getDataaa'));
+    return view('UserHomepage.userrequest',compact('getData','getDataa','getDataaa'));
 
     //return view('User Homepage.userrequest');
 

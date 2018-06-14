@@ -37,17 +37,37 @@
           Edit
         </button>
         <!-- Delete button -->
-        <form method="POST" action="{{ url('products/'.$prod->id)}}" style="display:inline;">
-          <input type="hidden" name="_method" value="DELETE">
-          {{ csrf_field() }}
-          <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash-o"></i>Delete</button>
-        </form>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#myDelProdModal" id="deleteProdButton"  onclick="passValueToDelProdModal({{$prod->id}}, '{{ $prod->name }}')"><i class="fa fa-trash-o"></i>Delete</button>
       </td>
     </tr>
     @endforeach
 <!--  table body ends -->
   </tbody>
 </table>
+<!-- Delete Modal -->
+<div class="modal fade" id="myDelProdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myDelProdLabel">Modal title</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <form id="deleteProdForm" method="POST" action="">
+          <input type="hidden" name="_method" value="DELETE">
+          {{ csrf_field() }}
+          <button class="btn btn-danger" type="submit" value="Delete">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete Modal -->
 @else
   <h2> No Products for this particular category</h2>
 @endif

@@ -33,8 +33,8 @@ ul.ui-autocomplete.ui-menu {
           @if($cat->count() != 0)
           <div class="row justify-content-center">
             <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addproductmodal"><i class="fa fa-plus-circle"></i>Add new Product</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="btn btn-primary btn-lg"><i class="fa fa-download"></i>Export Inventory</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="btn btn-primary btn-lg"><i class="fa fa-download"></i>Products Away</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-primary btn-lg" href="{{ route('adminstaff.downloaduserlist') }}"><i class="fa fa-download"></i>Export Inventory</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- <button class="btn btn-primary btn-lg"><i class="fa fa-download"></i>Export Inventory</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
           </div>
 
 
@@ -220,8 +220,16 @@ $('#searchBtn').click(function(){
 
 });
 
-// Function TO validate Add Product Modal
+// Function to add confirmation to delete product page
 
+function passValueToDelProdModal(prodId, prodName)
+{
+  // set the URL for Delete Button
+  var formAction = "{{ url('products/')}}" + "/" + prodId;
+  $('#deleteProdForm').attr('action',formAction);
+  // Change the title
+  $('#myDelProdLabel').text(prodName);
+}
 
 
 

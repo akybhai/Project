@@ -43,6 +43,8 @@ class AuthController extends Controller
           //login
           Auth::login($authUser, true);
           return redirect('/');
+
+
         }
         else {
           //registration
@@ -61,7 +63,7 @@ class AuthController extends Controller
            }
 
 
-           return view('User Homepage.index');
+           return view('UserHomepage.index');
         }
       }
     }

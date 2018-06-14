@@ -85,8 +85,10 @@ Route::post('/insert', 'StaffAdminController@collect');
 Route::post('/collecting', 'StaffAdminController@returnitem');
 
 Route::get('/getProdviewsingledashboard','StaffAdminController@singleproductdashboard');
-
-
+//Export userlist to excel
+Route::get('admin/userlistdownload', 'ProductsController@exportProductCSV')->name('adminstaff.downloaduserlist');
+// Url for adhoc Request
+Route::get('admin/adhocRequest', 'StaffAdminController@showAdhocRequestForm')->name('adminstaff.adhocRequest');
 
 // sanjeev
 
