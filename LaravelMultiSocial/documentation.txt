@@ -98,3 +98,14 @@ POST:register :App\Http\Controllers\Auth\RegisterController@register
 Question:
 How do we interface microsoft login and Auth login?
 https://scotch.io/tutorials/laravel-social-authentication-with-socialite
+
+
+
+
+-------------------------------------------------------
+Creation of local admin:
+
+1. Php artisan tinker to generate the local admin user
+    php artisan tinker
+2. Create a new instance of the admin model
+    
