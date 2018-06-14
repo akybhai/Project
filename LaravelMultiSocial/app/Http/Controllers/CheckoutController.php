@@ -34,7 +34,8 @@ class CheckoutController  extends Controller
 
 
             DB::table('transactions')->insert([
-                ['USER_ID' => $c->User_Id, 'Product_ID' => $c->Product_Id, 'START_DATE' => $c->Start_Date, 'END_DATE' => $c->End_Date, 'BOOKING_STATUS' => 'pending', 'BOOKING_REASON' => $request->input('Reason'),'FULL_DAY'=>$c->Full_Day]
+                ['USER_ID' => $c->User_Id, 'Product_ID' => $c->Product_Id, 'START_DATE' => $c->Start_Date, 'END_DATE' => $c->End_Date, 'BOOKING_STATUS' => 'pending',
+                    'BOOKING_REASON' => $request->input('Reason'),'FULL_DAY'=>$c->Full_Day,'SOCIETY'=>$request->input('Society')]
             ]);
 
             DB::table('cart')->where('Cart_Id', '=', $c->Cart_Id)->delete();
@@ -72,7 +73,7 @@ class CheckoutController  extends Controller
              // Set the receiver and subject of the mail.
              $message->to($admin, "Admin")->subject('New Booking request');
              // Set the sender
-             $message->from('a.ramaswamy1@nuigalway.ie','NUIGsocs Inventory Mail');
+             $message->from('s.halyal1@nuigalway.ie','NUIGsocs Inventory Mail');
              $message->cc($staffanduser);
          });
 

@@ -18,7 +18,7 @@ class GetProductController extends Controller
 {
     public function productlist(Request $request)
     {
-        if($request->input('category')!="All Products") {
+        if($request->input('category')!="ALL PRODUCTS") {
             $cat = \DB::table('categories')->select('id')->where('category', 'like', $request->input('category'))->get();
             $pro = \DB::select('select count(*) as c from products where category=?', [$cat[0]->id]);
 
@@ -37,6 +37,7 @@ class GetProductController extends Controller
 
                 }
             }
+
         }
         else
             {
@@ -49,7 +50,9 @@ class GetProductController extends Controller
 
                     $pro = \DB::table('products')->select('name as n', 'description  as d', 'productID as p', 'category as c')->get();
 
+
                     foreach ($pro as $key => $pp) {
+
                         echo '<tr>
                 <td>' . $pp->p . '</td>
                 <td>' . $pp->n . '</td>
@@ -57,12 +60,22 @@ class GetProductController extends Controller
                 <td><a href="#" data-toggle="modal" data-target="#multidaymodal" onclick=\'multiday('.$pp->p.');\'><button type="button" class="btn"  >Availability</button></a></td>
             </tr>';
 
+
+
+
                     }
+
                 }
+              }
+            }
 
-        }
 
-    }
+
+
+
+
+
+
 
     public function singleproduct(Request $request)
     {

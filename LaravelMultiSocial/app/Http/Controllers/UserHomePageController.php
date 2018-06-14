@@ -21,7 +21,6 @@ $user = User::find(Auth::id());
     {
       return redirect()->route('home');
     }
-      $users =  \App\User::all();
 
       if($user->mobile==null)
       {

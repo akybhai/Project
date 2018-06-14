@@ -13,12 +13,14 @@
     </div>
     <div class="row">
       <div class="col-md-6 col-lg-3">
-          <a href="{{ url('/admin/userlist') }}"><div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+          <a href="{{ url('/admin/userlist') }}">
+              <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
           <div class="info">
             <h4>Users</h4>
             <p><b>
                     <?php
                     use App\User;
+                    use Illuminate\Support\Facades\Auth;
                     $users=\DB::select('select count(*) as c from users where role_id=3');
 
                         echo $users[0]->c;
@@ -33,7 +35,8 @@
           </a>
       </div>
       <div class="col-md-6 col-lg-3">
-          <a href="{{ url('/admin/userlist') }}"> <div class="widget-small info coloured-icon"><i class="icon fa fa-user-secret"></i>
+          <a href="{{ url('/admin/userlist') }}">
+              <div class="widget-small info coloured-icon"><i class="icon fa fa-user-secret"></i>
           <div class="info">
             <h4>Admin/Staff</h4>
             <p><b>
@@ -52,7 +55,8 @@
           </a>
       </div>
       <div class="col-md-6 col-lg-3">
-          <a href="{{ url('/admin/categories') }}"><div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
+          <a href="{{ url('/admin/categories') }}">
+              <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
           <div class="info">
             <h4>Categories</h4>
             <p><b>
@@ -72,7 +76,8 @@
           </a>
       </div>
       <div class="col-md-6 col-lg-3">
-          <a href="{{ url('admin/products') }}"><div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
+          <a href="{{ url('admin/products') }}">
+              <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
           <div class="info">
             <h4>Products</h4>
             <p><b>
@@ -94,13 +99,15 @@
 
     <div class="row" >
       <div class="col-md-6" style="height: 350px;overflow-y:scroll;>
-        <div class="tile">
+        <div class="tile
+        ">
           <h3 class="tile-title">Outgoing Products</h3>
           <table class="table table-striped">
             <thead>
             <tr>
               <th>Id</th>
               <th>Product Name</th>
+              <th>Society</th>
               <th></th>
             </tr>
             </thead>
@@ -108,13 +115,13 @@
 
 
                 <?php
-                $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=? order by Start_Date',[date("Y-m-d")]);
+                $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs, society as soc from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=? order by Start_Date',[date("Y-m-d")]);
 
-                foreach($inTran as $t)
-                {
+                foreach($inTran as $t) {
                     $prodname=\DB::select('select name,productID as id from products where productID=?',[$t->prod]);
                     echo "<tr><td>".$t->id."</td>";
                     echo '<td><a href="#"  data-toggle="modal" data-target="#product_view" class="pull-left singleProductView" onclick="singleProductViewFunc('.$prodname[0]->id.','.$t->id.')">'.$prodname[0]->name."</td>";
+                    echo "<td>".$t->soc."</td>";
                     echo '<td>
                 <button type="button" class="btn btn-info" data-toggle="modal" onclick="updatecpnb('.$t->id.','.$t->prod.')" data-target="#exampleModalCenter">
                   Collect
@@ -122,8 +129,7 @@
               </td></tr>';
                 }
                 $inTran = \DB::select('select count(*) as c from transactions WHERE booking_status  in ("approved") and Date(Start_Date)=?',[date("Y-m-d")]);
-                if($inTran[0]->c==0)
-                {
+                if($inTran[0]->c==0) {
                     echo "<td>No Products Today</td>";
                 }
                 ?>
@@ -131,15 +137,15 @@
 
                 <script>
 
-                  function updatecpnb(x,y)
-                  {
+                  function updatecpnb(x,y) {
                       document.getElementById("cprodID").value=y;
                       document.getElementById("cbookID").value=x;
                   }
                   </script>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -153,12 +159,18 @@
                         <div class="form-group">
                           {{ csrf_field() }}
                           <label class="control-label" for="prodID"><b>Product ID:</b></label>
-                          <input type="prodID" class="form-control collect-from" value="0" id="cprodID" placeholder="Enter product ID" name="prodID" required>
+                          <input type="number" class="form-control collect-from" value="0" id="cprodID"
+                                 placeholder="Enter product ID" name="prodID" required>
                         </div>
 
                         <div class="form-group">
-                          <label class="control-label" for="studID"><b>Student ID:</b></label>
-                          <input type="studID"  class="form-control collect-from"  id="studID" placeholder="Enter student ID" name="studID" required>
+                          <label class="control-label" for="collectUserName"><b>Collector name:</b></label>
+                          <input type="collectUserName"  class="form-control collect-from"  id="collectUserName" placeholder="Enter name of collector" name="collectUserName" required>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="control-label" for="mob"><b>Mobile no:</b></label>
+                          <input type="number"  class="form-control collect-from"  id="mob" placeholder="Enter mobile no." name="mob" required>
                         </div>
 
                         <div class="form-group">
@@ -168,19 +180,12 @@
 
                         <div class="form-group">
                           <label class="control-label" for="staff"><b>Staff Incharge:</b></label>
-                          <select class="form-control collect-from" id="staff" name="staff">
-                            <option value="" selected disabled hidden>Please select</option>
-                            <?php
-                              $users = User::where('role_id', '!=', 3)->get();
-
-                              foreach ($users as $u)
-                              {
-                                  echo " <option >".$u->name."</option>";
-                              }
+                          <input type="staff"  class="form-control collect-from" id="staff"
+                                 value="<?php
+                              echo User::find(Auth::id())->name;
 
 
-                              ?>
-                          </select>
+                              ?>" name="staff" required disabled>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -206,18 +211,20 @@
             <tr>
               <th>Id</th>
               <th>Product Name</th>
+              <th>Society</th>
               <th></th>
             </tr>
             </thead>
             <tbody>
             <?php
-            $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs from transactions WHERE booking_status  in ("collected") and Date(End_Date)=? order by End_Date',[date("Y-m-d")]);
+            $inTran = \DB::select('select booking_id as id,product_id as prod, booking_reason as bs,society as soc from transactions WHERE booking_status  in ("collected") and Date(End_Date)=? order by End_Date',[date("Y-m-d")]);
 
             foreach($inTran as $t)
             {
                 $prodname=\DB::select('select name,productID as id from products where productID=?',[$t->prod]);
                 echo '<tr><td>'.$t->id."</td>";
                 echo '<td><a href="#"  data-toggle="modal" data-target="#product_view"  class="pull-left singleProductView" onclick="singleProductViewFunc('.$prodname[0]->id.','.$t->id.')">'.$prodname[0]->name."</td>";
+                echo "<td>".$t->soc."</td>";
                 echo '<td>
                 <button type="button" class="btn btn-primary" data-toggle="modal" onclick="updaterpnb('.$t->id.','.$t->prod.')" data-target="#exampleModalCenter1">
                   Return
@@ -328,7 +335,7 @@
                             <div class="form-group">
                               {{ csrf_field() }}
                               <label class="control-label" for="prodID"><b>Product ID:</b></label>
-                              <input type="prodID" class="form-control" id="rprodID" value="1" name="prodID" readonly>
+                              <input type="number" class="form-control" id="rprodID" value="1" name="prodID" readonly>
                             </div>
                             <div class="form-group">
                               <label class="control-label" for="bookID"><b>Booking ID:</b></label>
@@ -336,15 +343,12 @@
                             </div>
                             <div class="form-group">
                               <label class="control-label" for="staff"><b>Staff Incharge:</b></label>
-                              <select class="form-control" id="staff" name="staff">
-                                <option value="" selected disabled hidden>Please select</option>
+                              <select class="form-control" id="staff" name="staff" readonly>
                                   <?php
-                                  $users = User::where('role_id', '!=', 3)->get();
+                                  $users = User::find(Auth::id());
 
-                                  foreach ($users as $u)
-                                  {
-                                      echo " <option >".$u->name."</option>";
-                                  }
+
+                                      echo " <option selected >".$users->name."</option>";
 
 
                                   ?>
@@ -444,7 +448,7 @@
         <?php
         $inTran = \DB::select('select count(*) as c,name from  products b where productID not in(select product_id from transactions a WHERE Date(Start_Date)<=? and Date(End_Date)>=? AND booking_status in ("approved")) GROUP BY name ORDER BY name ',[date("Y-m-d"),date("Y-m-d")]);
 
-        for($t=0;$t< count($inTran) and $t<3; $t++ )
+        for($t=0;$t< count($inTran); $t++ )
         {
             echo "<tr><td>".$inTran[$t]->name."</td>";
             echo "<td>".$inTran[$t]->c."</td>";

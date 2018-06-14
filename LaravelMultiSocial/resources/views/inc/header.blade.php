@@ -32,9 +32,9 @@
       </div>
       <div id="navbar3" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ url('/') }}">Home</a></li>
+          {{--<li><a href="{{ url('/') }}">Home</a></li>--}}
           <li><a href="{{ url('/YourCart') }}">Cart</a></li>
-          <li><a href="{{ url('/Requests') }}">Requests</a></li>
+          <li><a href="{{ url('/userrequest') }}">Requests</a></li>
           <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i><span class="caret"></span></a>
             <ul class="dropdown-menu">
               @guest
