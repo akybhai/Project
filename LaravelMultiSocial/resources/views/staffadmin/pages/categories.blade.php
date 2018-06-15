@@ -69,11 +69,10 @@
         Are you sure you want to delete ?
       </div>
       <div class="modal-footer">
-
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <form id="deleteForm" method="POST" action="">
           <input type="hidden" name="_method" value="DELETE">
           {{ csrf_field() }}
-
           <button class="btn btn-danger" type="submit" value="Delete">Delete</button>
         </form>
       </div>

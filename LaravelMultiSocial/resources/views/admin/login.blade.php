@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('style')
+<link rel="stylesheet" href="{{asset('sa/css/bootstrap.min.css')}}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -62,4 +66,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{asset('sa/jquery/jquery.js')}}"></script>
+<script src="{{asset('sa/js/bootstrap.js')}}"></script>
 @endsection

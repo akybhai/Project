@@ -85,6 +85,12 @@ Route::post('/insert', 'StaffAdminController@collect');
 Route::post('/collecting', 'StaffAdminController@returnitem');
 
 Route::get('/getProdviewsingledashboard','StaffAdminController@singleproductdashboard');
+//Export userlist to excel
+Route::get('admin/userlistdownload', 'ProductsController@exportProductCSV')->name('adminstaff.downloaduserlist');
+// Url for adhoc Request
+Route::get('admin/adhocRequest', 'StaffAdminController@showAdhocRequestForm')->name('adminstaff.adhocRequest');
+// url for adhoc POST
+Route::post('admin/checkout','CheckoutController@adhocCheckout');
 
 
 
@@ -122,24 +128,23 @@ Route::post('/checkout','CheckoutController@checkout');
 
 //manmaya's
 Route::get('admin/request','StaffAdminController@pendingdata')->name('adminstaff.request');
+//admin
+Route::post('apvdec/but/{booking_id}', 'CreatesController@approvedeclinebutton'); // this is for aprrove and decline button in pending page modal
 
-
-
-//Route::post('apvdec/but/{booking_id}', 'CreatesController@approvedeclinebutton'); // this is for aprrove and decline button in pending page modal
 //
 //Route::post('apv/but/{booking_id}', 'CreatesController@approvebutton');
 //
 //
 ////  This is for declining a request in approved data page where admin will decline a approved request due to fault product
-//Route::get('dec/but', function(Request $request)
-//{
-// $id=$request->input('booking_id');
-// DB:: table('transactions')->where('booking_id',$id)->update(['booking_status'=>'declined']);
-// DB::table ('transactions')->where('booking_id',$id)->update(['comment'=>$request->input('reason')]);
-// //return $id;
-// return back();
-// // echo $request->('ex');
-//});
+Route::get('dec/but', function(Request $request)
+{
+$id=$request->input('booking_id');
+DB:: table('transactions')->where('booking_id',$id)->update(['booking_status'=>'declined']);
+DB::table ('transactions')->where('booking_id',$id)->update(['comment'=>$request->input('reason')]);
+//return $id;
+return back();
+// echo $request->('ex');
+});
 
 //get approved table
 Route::get('admin/request/approved', 'CreatesController@approvedData')->name('adminstaff.request.approved');

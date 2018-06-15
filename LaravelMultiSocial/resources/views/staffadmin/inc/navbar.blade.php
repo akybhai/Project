@@ -15,6 +15,7 @@
               <a href="{{ route('logout') }}"
               class="dropdown-item"
                   onclick="event.preventDefault();
+                           window.open('https://login.windows.net/common/oauth2/logout', '_blank');
                            document.getElementById('logout-form').submit();"><i class="fa fa-sign-out fa-lg"></i>
                   Logout
               </a>

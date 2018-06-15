@@ -19,13 +19,8 @@ class CheckoutController  extends Controller
 
     public function checkout(Request $request)
     {
-        $user = User::find(Auth::id());
-        $userstaff = \DB::select("SELECT * FROM users WHERE role_id!='3' order by ID DESC ");
-
-
-
-
-
+      $user = User::find(Auth::id());
+      $userstaff = \DB::select("SELECT * FROM users WHERE role_id!='3' order by ID DESC ");
 
         $Cart = \DB::select('select * from cart WHERE User_Id=?', [$user->id]);
 
@@ -79,5 +74,58 @@ class CheckoutController  extends Controller
 
 
         echo 1;
+    }
+    
+    public function adhocCheckout(Request $request)
+    {
+      $user = User::find(Auth::id());
+      $userstaff = \DB::select("SELECT * FROM users WHERE role_id!='3' order by ID DESC ");
+      if(request()->ajax())
+      {
+        $Cart = $request->cartdetails;
+        $Cart = $Cart['cart'];
+        foreach ($Cart as $c)
+        {
+          DB::table('transactions')->insert([
+              ['USER_ID' => $c['userId'], 'Product_ID' => $c['productID'], 'START_DATE' => $c['startDate'],
+               'END_DATE' => $c['endDate'], 'BOOKING_STATUS' => 'approved',
+                'BOOKING_REASON' => $c['bookingReason']]
+          ]);
+          DB::commit();
+        }
+        // mail code
+        $admin='m.panda1@nuigalway.ie';
+
+
+         $staffanduser= array();
+         foreach($userstaff as $key => $staffarr)
+         {
+             if($staffarr->role_id!=1)
+             {
+                 array_push($staffanduser,$staffarr->email);
+             }
+             else
+             {
+                 $admin =$staffarr->email;
+             }
+             array_push($staffanduser,$staffarr->email);
+         }
+
+         array_push($staffanduser,$user->email);
+
+         $data = array('name'=>$user->name,'cart'=>$Cart);
+         // Path or name to the blade template to be rendered
+         $template_path = 'Mail.adhocMail';
+
+
+         Mail::send($template_path, $data, function($message) use($admin,$staffanduser) {
+             // Set the receiver and subject of the mail.
+             $message->to($admin, "Admin")->subject('New Booking request');
+             // Set the sender
+             $message->from('s.halyal1@nuigalway.ie','NUIGsocs Inventory Mail');
+             $message->cc($staffanduser);
+         });
+        return 1;
+      }
     }
 }
