@@ -118,12 +118,13 @@
 
 
     </style>
+
 <footer id="myFooter">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3" align="center">
-                <h3 class="logo"><a href="http://www.nuigalway.ie/">NUI  Galway</h3>
-                <img class="img-thumbnail" src="{{asset('sa/img/nui-logo.jpg')}}" alt="nui-logo" width="250px" height="80px" align="middle"></a>
+                <h3 class="logo"><a target="_blank" href="http://www.nuigalway.ie/">NUI Galway</h3>
+                <img class="img-thumbnail" src="sa/img/nui-logo.jpg" alt="nui-logo" width="250px" height="80px" align="middle"></a>
             </div>
             <div class="col-sm-2">
                 <h5 align="center">Note:</h5>

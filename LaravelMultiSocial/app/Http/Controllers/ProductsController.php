@@ -304,32 +304,4 @@ class ProductsController extends Controller
        $getData = DB::table('activity_logs')->insert(array("prod_user"=>"$prod_name($prod_id)", "action"=>"deleted", "performed_by"=>"$user->name", "cat_client"=>$category[0]->c));
         return redirect()->route('adminstaff.products') ;
     }
-    /**
-     * Function to export the list of all the products
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-     public function exportProductCSV()
-     {
-         $products = Product::all();
-         $tot_record_found=0;
-
-         if(count($products)>0){
-             $tot_record_found=1;
-             //First Methos
-             $export_data="ProductID,ProductName,Category\n";
-             foreach($products as $value){
-                 $export_data.=$value->productID.',' .$value->name.',' .$value->categories->category."\n";
-             }
-             return response($export_data)
-                 ->header('Content-Type','application/csv')
-                 ->header('Content-Disposition', 'attachment; filename="products_list_download.csv"')
-                 ->header('Pragma','no-cache')
-                 ->header('Expires','0');
-                 view('download',['record_found' =>$tot_record_found]);
-         }
-
-         return back();
-     }
 }

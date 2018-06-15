@@ -26,8 +26,8 @@
     {{--<link rel="stylesheet" src="{{asset('css/bootstrap.css')}}">--}}
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
-    <!-- <script src="sa/jquery/jquery.js"></script>
-    <script src="sa/js/bootstrap.js"></script> -->
+    <script src="sa/jquery/jquery.js"></script>
+    <script src="sa/js/bootstrap.js"></script>
 
     <style media="screen">
         .nav1 .navbar-brand {
@@ -66,7 +66,7 @@
 @include('inc.footer')
 
 <!-- jQuery -->
-
+{{--<script src="sa/jquery/jquery.js"></script>--}}
 <!-- Bootstrap Core JavaScript -->
 
 @yield('script')

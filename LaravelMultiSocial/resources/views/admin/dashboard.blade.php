@@ -1,7 +1,4 @@
 @extends('layouts.app')
-@section('style')
-<link rel="stylesheet" href="{{asset('sa/css/bootstrap.min.css')}}">
-@endsection
 @section('content')
 <div class="container">
     <div class="row">
@@ -40,8 +37,7 @@
 @endsection
 
 @section('script')
-<script src="{{asset('sa/jquery/jquery.js')}}"></script>
-<script src="{{asset('sa/js/bootstrap.js')}}"></script>
+
 <script type="text/javascript">
 
   // $('#searchBtn').click(function(){

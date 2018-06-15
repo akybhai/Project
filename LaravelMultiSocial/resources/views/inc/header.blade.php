@@ -35,10 +35,11 @@
           {{--<li><a href="{{ url('/') }}">Home</a></li>--}}
           <li><a href="{{ url('/YourCart') }}">Cart</a></li>
           <li><a href="{{ url('/userrequest') }}">Requests</a></li>
-          <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i><span class="caret"></span></a>
+          <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i><span class="caret"></span></a>
             <ul class="dropdown-menu">
               @guest
                 <li><a href="{{ route('login') }}">Login</a></li>
+                {{-- <li><a href="{{ route('register') }}">Register</a></li> --}}
               @else
                 <li><a class="dropdown-item" href="{{ route('home') }}"><i class="fa fa-user fa-lg"></i> {{ Auth::user()->name }}</a></li>
                 <li><a class="dropdown-item" href="{{ route('logout') }}"
